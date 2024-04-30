@@ -67,59 +67,9 @@ const Header = () => {
         }
         p={0.5}
       >
-        Robotics Lab Management System, Save Time...
+        Robotics Lab Management System
       </Text>
-      <Flex
-        gap={8}
-        justifyContent={"flex-end"}
-        p={2}
-        pr={16}
-        fontWeight={400}
-        fontSize={"14px"}
-        color={"#0060A9"}
-        bg={"#EEEEEE"}
-        display={["none", "none", "none", "flex"]}
-      >
 
-        <Text
-          _hover={{ textDecoration: "underline solid rgb(0,96,169)" }}
-          cursor={"pointer"}
-        >
-          While Supplies Last
-        </Text>
-
-        <Text
-          _hover={{ textDecoration: "underline solid rgb(0,96,169)" }}
-          cursor={"pointer"}
-        >
-          Treasure Hunt
-        </Text>
-        <Text
-          _hover={{ textDecoration: "underline solid rgb(0,96,169)" }}
-          cursor={"pointer"}
-        >
-          Whats New
-        </Text>
-        <Text
-          _hover={{ textDecoration: "underline solid rgb(0,96,169)" }}
-          cursor={"pointer"}
-        >
-          New Lower Prices
-        </Text>
-        <Text
-          _hover={{ textDecoration: "underline solid rgb(0,96,169)" }}
-          cursor={"pointer"}
-        >
-          Get Email Offers
-        </Text>
-        <Text
-          _hover={{ textDecoration: "underline solid rgb(0,96,169)" }}
-          cursor={"pointer"}
-        >
-          Customer Service
-        </Text>
-
-      </Flex>
       <SimpleGrid
         display={["grid", "grid", "none", "none"]}
         gridTemplateColumns={"repeat(2,1fr)"}
@@ -307,31 +257,7 @@ const Header = () => {
             />
           </Button>
         </Flex>
-        <Flex display={["none", "none", "flex", "flex"]}>
-          <Input
-            placeholder="Search"
-            bg={"white"}
-            borderRadius={"none"}
-            border={"1px solid blue"}
-            outline={"none"}
-          />
-          <Button
-            w={["none", "none", "30%", "10%"]}
-            bg={"white"}
-            ml={-2}
-            outline={"none"}
-            _active={{ bg: "none", scale: "1.1" }}
-            border={"1px solid blue"}
-            borderLeft={"none"}
-            borderRadius={"none"}
-          >
-            <img
-              src="src\assets\searchIcon-removebg-preview.png"
-              alt=""
-              width={"100%"}
-            />
-          </Button>
-        </Flex>
+       
         <Flex
           gap={6}
           justifyContent={"center"}
@@ -758,7 +684,7 @@ const Header = () => {
         <Flex gap={["2", "2", "4", "10"]}>
           <SimpleGrid>
             <Text fontSize={"12px"} fontWeight={400}>
-              My Warehouse
+            Oulu University of Applied Sciences 
             </Text>
             <Flex alignItems={"center"}>
               <Box w={4}>
@@ -772,18 +698,7 @@ const Header = () => {
             </Text>
           </SimpleGrid>
 
-          <SimpleGrid>
-            <Text fontSize={"12px"} fontWeight={400}>
-              Delivery Location
-            </Text>
-            <Flex alignItems={"center"}>
-              <Box w={4}>
-                {" "}
-                <img src="src\assets\maps-and-flags.png" alt="" />
-              </Box>{" "}
-              <Text fontWeight={600}>98101</Text>
-            </Flex>
-          </SimpleGrid>
+          
         </Flex>
 
         <Text

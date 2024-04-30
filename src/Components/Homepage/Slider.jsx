@@ -54,14 +54,7 @@ export default function SimpleSlider() {
   let arr = [
     "src/assets/HomeIMG/Slider1/1.jpg",
     "src/assets/HomeIMG/Slider1/12.jpg",
-    "src/assets/HomeIMG/Slider1/3.jpg",
-    "src/assets/HomeIMG/Slider1/4.jpg",
-    "src/assets/HomeIMG/Slider1/6.jpg",
-    "src/assets/HomeIMG/Slider1/7.jpg",
-    "src/assets/HomeIMG/Slider1/8.jpg",
-    "src/assets/HomeIMG/Slider1/9.jpg",
-    "src/assets/HomeIMG/Slider1/10.jpg",
-    "src/assets/HomeIMG/Slider1/11.jpg",
+
   ];
 
   return (
