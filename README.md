@@ -1,142 +1,77 @@
-# Mantis Free React Material UI Dashboard Template [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Download%20Mantis%20React%20-%20The%20professional%20Material%20designed%20React%20Admin%20Dashboard%20Template%20&url=https://mantisdashboard.io&via=codedthemes&hashtags=reactjs,webdev,developers,javascript)
+# Costco Clone Project 🛒
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Price](https://img.shields.io/badge/price-FREE-0098f7.svg)](https://github.com/codedthemes/mantis-free-react-admin-template/blob/main/LICENSE)
-[![GitHub package version](https://img.shields.io/github/package-json/v/codedthemes/mantis-free-react-admin-template)](https://github.com/codedthemes/mantis-free-react-admin-template/)
+Welcome to the Costco clone project, a web application designed to provide a seamless shopping experience similar to Costco's online platform. Below are the key features and functionalities of the Costco clone project.
 
-Mantis is a free and open source React redux dashboard template made using the Material UI React component library with aim of flexibility and better customizability.
+## Experience It Yourself 🔗
+- [Costco Clone](https://costco-clone.com)
 
-### Name Derived From Nature
+## About Costco 🏪
+Costco is a membership warehouse club, dedicated to bringing our members the best possible prices on quality brand-name merchandise. With hundreds of locations worldwide, Costco provides a wide selection of merchandise, plus the convenience of specialty departments and exclusive member services, all designed to make your shopping experience a pleasurable one.
 
-Mantis Logo is inspired from the insect name - 'Mantises' as they have triangular heads with flexible Necks. Also, the name is derived from two popular UI frameworks, Material UI and Ant Design (M-Ant-is).
 
-Mantis has Ant Design principal on top of the MAterial UI React component library.
+## Features 🚀
+1. Home Page 🏡
+   The home page serves as the entry point for users, providing an overview of featured products, promotions, and other relevant information.
 
-:star: :star: :star: Support us by giving star (Top right of this page) if you like the theme :star: :star: :star:
+2. Login & Signup 🌐
+   Users can create accounts or log in to existing ones, ensuring a personalized experience.
 
-![mantis-free-react-dashboard-template.jpg](https://mantisdashboard.io/adv-banner-images/og-social-v1.1.0.png)
+3. Cart Page Checkout 🛒
+   Review and manage selected products before proceeding to checkout.
 
-The [Pro version](https://mantisdashboard.io) of Mantis react template includes features such as TypeScript, apps, authentication methods (i.e. JWT, Auth0, Firebase), advance components, form plugins, layouts, widgets, and more.
+4. Responsive Design 📱
+   Ensures the website adapts seamlessly to various screen sizes and devices.
 
-| [Mantis Free](https://mantisdashboard.io/free) | [Mantis Pro](https://mantisdashboard.io)                                         |
-| ---------------------------------------------- | :------------------------------------------------------------------------------- |
-| **7** Demo pages                               | **85+** Demo pages                                                               |
-| -                                              | ✓ Multi-language                                                                 |
-| -                                              | ✓ Dark/Light Mode 🌓                                                             |
-| -                                              | ✓ TypeScript version                                                             |
-| -                                              | ✓ Design files (Figma)                                                           |
-| -                                              | ✓ Multiple color options                                                         |
-| -                                              | ✓ RTL                                                                            |
-| -                                              | ✓ JWT, Firebase, Auth0, AWS authentication                                       |
-| -                                              | ✓ [More components](https://mantisdashboard.io/components-overview/autocomplete) |
-| ✓ MIT License                                  | ✓ [Pro License](https://mui.com/store/license/)                                  |
+5. Proper Routing 🛤️
+   Navigating through different pages is smooth and intuitive.
 
-## Why Mantis?
+6. Sorting Functionality 🔄
+   Users can sort products based on various criteria for a better shopping experience.
 
-Mantis offers everything needed to build an advanced dashboard application. In the initial release, we included following high-end features,
+7. Smooth Interface 🌟
+   The website offers a user-friendly interface with seamless interactions.
 
-- Support React18.
-- Professional user interface.
-- Material UI React components.
-- Fully responsive, all modern browser supported.
-- Easy to use code structure
-- Flexible & high-Performance code
-- Simple documentation
+## Tech Stack 💻
+- React and Vite
+- Redux
+- JSON
+- Chakra UI
+- npm
 
-## Free Mantis React version
+## Images 🖼️
+Below are the images of various pages:
 
-#### Preview
+1. Home Page 🏡
+   ![Home Page](https://github.com/KaranChauhanji/Costco-Clone/blob/main/src/assets/Home.png)
 
-- [Demo](https://mantisdashboard.io/free)
+2. Login Page 🌐
+   ![Login Page](https://github.com/KaranChauhanji/Costco-Clone/blob/main/src/assets/Login.png)
 
-#### Download
+3. Signup Page 📝
+   ![Signup Page](https://github.com/KaranChauhanji/Costco-Clone/blob/main/src/assets/Signup.png)
 
-- [Download from GitHub](https://github.com/codedthemes/mantis-free-react-admin-template)
+4. Multi-Product Page 🛍️
+   ![Profile Page](https://github.com/KaranChauhanji/Costco-Clone/blob/main/src/assets/multiproduct.png)
 
-## Mantis Pro version
+5. Single-Product Page 🛍️
+   ![Profile Page](https://github.com/KaranChauhanji/Costco-Clone/blob/main/src/assets/singleproduct.png)
 
-#### Preview
+6. Cart Page 🛒
+   ![Cart Page](https://github.com/KaranChauhanji/Costco-Clone/blob/main/src/assets/cart.png)
 
-- [Demo](https://mantisdashboard.io)
+## Getting Started 🚀
+To run the Costco clone project locally, follow these steps:
+1. Clone the repository to your local machine.
+2. Install dependencies using npm.
+3. Start the development server.
 
-#### Purchase
+## Contributing 🤝
+Contributions from the community are welcome. Feel free to submit pull requests with new features or improvements.
 
-- [Buy now](https://mui.com/store/items/mantis-react-admin-dashboard-template/)
+## Acknowledgments 🙏
+Thank you for exploring the Costco clone project! Enjoy your shopping experience. 🛍️
 
-## Table of contents
 
-- [Getting started](#getting-started)
-- [Documentation](#documentation)
-- [Technology stack](#technology-stack)
-- [Author](#author)
-- [Issues?](#issues)
-- [License](#license)
-- [More Free React Templates](#more-free-react-material-admin-dashboard-templates)
-- [More Pro React Templates](#more-premium-react-material-admin-dashboard-templates)
-- [Follow us](#follow-us)
 
-## Getting Started
 
-1. Clone from Github
 
-```
-git clone https://github.com/codedthemes/mantis-free-react-admin-template.git
-```
-
-2. Install packages
-
-```
-yarn
-```
-
-3. Run project
-
-```
-yarn start
-```
-
-## Documentation
-
-[Mantis documentation](https://codedthemes.gitbook.io/mantis/) helps you out in all aspects from Installation to deployment.
-
-## Technology stack
-
-- [Material UI V5](https://mui.com/core/)
-- Built with React Hooks API.
-- Redux & React context API for state management.
-- Redux toolkit.
-- React Router for navigation routing.
-- Support for react-script.
-- Code splitting.
-- CSS-in-JS.
-
-## Author
-
-Mantis is managed by team [CodedThemes](https://codedthemes.com).
-
-## Issues
-
-Please generate a [GitHub issue](https://github.com/codedthemes/mantis-free-react-admin-template/issues) if you found a bug in any version. We are try our best to resolve the issue.
-
-## License
-
-- Licensed under [MIT](https://github.com/codedthemes/datta-able-bootstrap-dashboard/blob/master/LICENSE)
-
-## More Free React Material Admin Dashboard Templates
-
-- [Free Materially](https://codedthemes.com/item/materially-free-reactjs-admin-template/)
-- [Free Berry](https://mui.com/store/items/berry-react-material-admin-free/)
-
-## More premium React Material Admin Dashboard Templates
-
-- [Materially](https://codedthemes.com/item/materially-reactjs-admin-dashboard/)
-- [Berry](https://mui.com/store/items/berry-react-material-admin/)
-
-## Follow us
-
-- Website [https://mantisdashboard.io](https://mantisdashboard.io)
-- Blog [https://blog.mantisdashboard.io](https://blog.mantisdashboard.io)
-- CodedThemes [https://codedthemes.com](https://codedthemes.com)
-- Dribbble [https://dribbble.com/codedthemes](https://dribbble.com/codedthemes)
-- Facebook [https://www.facebook.com/codedthemes](https://www.facebook.com/codedthemes)
-- Twitter [https://twitter.com/codedthemes](https://twitter.com/codedthemes)
