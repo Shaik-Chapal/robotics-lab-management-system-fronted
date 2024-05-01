@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <Box mt={5}>
-      <Box p={[6,  20, 20]} pb={["5", "5", "5"]} bg={"#EEEEEE"}>
+      <Box  bg={"#EEEEEE"}>
        
 
         <Divider
