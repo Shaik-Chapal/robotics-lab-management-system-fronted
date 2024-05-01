@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Text,
   useToast,
+  Grid, GridItem
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,24 +47,31 @@ const LoginPage = () => {
 
   return (
     <Box>
-      <Flex justifyContent={"center"} p={4} bg={"#EEEEEE"}>
-        <Box w={150}>
+      
+    
+      <Grid templateColumns='repeat(2, 1fr)' gap={6}>
+
+<GridItem  m={0}>
+  <SimpleGrid
+              
+               justifyContent={"center"}
+               alignItems={"center"}
+               w={["90%", "70%", "50%", "90%"]}
+               m={"auto"}
+               
+      >
+        <Flex justifyContent={"center"} p={4} bg={"#ffffff"}>
+        <Box w={40}>
           <Link to={"/"}>
-            <img src="src\assets\costcoLogoIdentityIntro@3x.png" alt="" />
+            <img src="src\assets\logo.png" alt="" />
           </Link>
         </Box>
       </Flex>
+      <Text fontSize="36px" fontWeight="bold" color="blue.600" mb={5} textAlign="center">
+  Sign In
+</Text>
 
-      <SimpleGrid
-        justifyContent={"center"}
-        alignItems={"center"}
-        w={["90%", "70%", "50%", "30%"]}
-        m={"auto"}
-      >
-        <SimpleGrid>
-          <Text fontSize={"36px"} mt={5} mb={5}>
-            Sign In
-          </Text>
+
           <Box p={7} border={"1px solid rgba(0,0,0,0.2)"}>
             <FormControl>
               <Input
@@ -95,9 +103,7 @@ const LoginPage = () => {
                   Keep me signed in
                 </Text>
               </Flex>
-              <Text fontWeight={400} fontSize={"12px"}>
-                Check this box only when on a private device.
-              </Text>
+           
 
               <Button
                 w={"100%"}
@@ -115,7 +121,7 @@ const LoginPage = () => {
 
             <Divider bg={"rgba(0,0,0,0.5)"} mt={2} mb={3}></Divider>
             <Text fontWeight={400} fontSize={"18px"} mb={4}>
-              New to Costco?
+              New to RLMS?
             </Text>
             <Link to={"/signup"}>
               <Button color={"#2A6293"} bg={"#EEEEEE"} w={"100%"}>
@@ -124,32 +130,26 @@ const LoginPage = () => {
             </Link>
           </Box>
         </SimpleGrid>
-      </SimpleGrid>
+        </GridItem>
+  
+        <GridItem bg='blue.100' m={50}>
+        <SimpleGrid
+  justifyContent={"right"}
+  alignItems={"center"}
+  w={["90%", "70%", "50%", "90%"]}
+  m={"auto"}
 
-      <SimpleGrid
-        bg={"#EEEEEE"}
-        p={5}
-        mt={28}
-        justifyContent={"center"}
-        color={"#5F5F5F"}
-      >
-        <Flex
-          gap={3}
-          fontSize={"14px"}
-          mt={3}
-          mb={5}
-          fontWeight={400}
-          justifyContent={"center"}
-        >
-          <Text _hover={{ textDecoration: "underline" }}>
-            Term and Conditions
-          </Text>
-          <Text _hover={{ textDecoration: "underline" }}>Privacy Rights</Text>
-        </Flex>
-        <Text fontWeight={400} fontSize={"14px"}>
-          © 2024 Costco Wholesale Corporation. All rights reserved.
-        </Text>
-      </SimpleGrid>
+  
+ 
+>
+  <img src="src\assets\robot.jpg" alt=""  /> {/* Add mt={5} for 5 units of margin-top */
+  }
+</SimpleGrid>
+</GridItem>
+ 
+</Grid>
+     
+
     </Box>
   );
 };
