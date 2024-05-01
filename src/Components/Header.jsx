@@ -80,14 +80,7 @@ const Header = () => {
         pt={4}
         pr={5}
       >
-        <Flex width={20} cursor={"pointer"}>
-          <Link to="/">
-            <img
-              src="https://www.costco.com/wcsstore/CostcoGLOBALSAS/images/Costco_Logo-1.png"
-              alt=""
-            />
-          </Link>
-        </Flex>
+       
         <SimpleGrid
           gap={6}
           gridTemplateColumns={"repeat(3,1fr)"}
@@ -113,7 +106,7 @@ const Header = () => {
               <Flex w={["73%", "20%"]} m={"auto"}>
                 <img src="src\assets\grocery-store.png" alt="" />
               </Flex>
-              <Text>Cart</Text>
+              <Text>Schedule</Text>
             </Link>
           </SimpleGrid>
         </SimpleGrid>
@@ -269,7 +262,7 @@ const Header = () => {
               <Box width={"5"}>
                 <img src="src\assets\grocery-store.png" alt="" />
               </Box>{" "}
-              Cart
+              Schedule
             </Flex>
           </Link>
         </Flex>
@@ -301,7 +294,7 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/beauty"}>
+            <Link to={"/staff"}>
               <MenuItem>
                 <Text>Stuff</Text>
               </MenuItem>
@@ -514,7 +507,7 @@ const Header = () => {
                 {" "}
                 <img src="src\assets\maps-and-flags.png" alt="" />
               </Box>{" "}
-              <Text fontWeight={600}>Seattle</Text>
+              <Text fontWeight={600}>Yliopistokatu 9, 90570 Oulu, Finland</Text>
             </Flex>
             <Text fontSize={"12px"} fontWeight={400} color={"red"}>
               Closed: Open 10:00AM Friday
@@ -524,13 +517,7 @@ const Header = () => {
           
         </Flex>
 
-        <Text
-          color={"blue"}
-          cursor={"pointer"}
-          display={["none", "none", "block", "block"]}
-        >
-          Lists/ Buy Again
-        </Text>
+       
       </Flex>
     </Box>
   );
