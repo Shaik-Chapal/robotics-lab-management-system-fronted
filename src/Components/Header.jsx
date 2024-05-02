@@ -132,86 +132,7 @@ const Header = () => {
           </Link>
         </Flex>
 
-        <Flex display={["flex", "flex", "none", "none"]} alignItems={"center"}>
-          <Menu>
-            <MenuButton
-              as={Button}
-              bg={"#0060A9"}
-              color={"white"}
-              w={40}
-              mr={2}
-            >
-              Inventory Management 
-            </MenuButton>
-            <MenuList color={"black"}>
-              <Link to={"/baby"}>
-                <MenuItem>
-                  <Text>Student</Text>
-                </MenuItem>
-              </Link>
-
-              <Link to={"/beauty"}>
-                <MenuItem>
-                  <Text>Stuff</Text>
-                </MenuItem>
-              </Link>
-
-              
-
-              <Link to={"/computer"}>
-                <MenuItem>
-                  <Text>Computers</Text>
-                </MenuItem>
-              </Link>
-
-              
-
-             
-              <Link to={"/furniture"}>
-                <MenuItem>
-                  <Text>Furniture</Text>
-                </MenuItem>
-              </Link>
-
-              <Link to={"/"}>
-                <MenuItem>
-                  <Text>Gift Cards & Tickets</Text>
-                </MenuItem>
-              </Link>
-
-          
-             
-              <Link to={"/patio-covers"}>
-                <MenuItem>
-                  <Text>Home & Kitchen</Text>
-                </MenuItem>
-              </Link>
-            </MenuList>
-          </Menu>
-
-          <Input
-            placeholder="Search"
-            bg={"white"}
-            borderRadius={"none"}
-            border={"1px solid blue"}
-            outline={"none"}
-          />
-          <Button
-            w={"100px"}
-            bg={"white"}
-            ml={2}
-            outline={"none"}
-            _active={{ bg: "none", scale: "1.1" }}
-            border={"1px solid blue"}
-            borderRadius={"none"}
-          >
-            <img
-              src="src\assets\searchIcon-removebg-preview.png"
-              alt=""
-              width={"100%"}
-            />
-          </Button>
-        </Flex>
+       
        
         <Flex
           gap={6}
@@ -288,15 +209,14 @@ const Header = () => {
             User Management 
           </MenuButton>
           <MenuList color={"black"}>
+          <Link to={"/department"}>
+              <MenuItem>
+                <Text>Department</Text>
+              </MenuItem>
+            </Link>
             <Link to={"/student"}>
               <MenuItem>
                 <Text>Student</Text>
-              </MenuItem>
-            </Link>
-
-            <Link to={"/staff"}>
-              <MenuItem>
-                <Text>Stuff</Text>
               </MenuItem>
             </Link>
 
@@ -306,29 +226,6 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/random"}>
-              <MenuItem>
-                <Text>Costco Direct</Text>
-              </MenuItem>
-            </Link>
-
-            <Link to={"/random"}>
-              <MenuItem>
-                <Text>Costco Next</Text>
-              </MenuItem>
-            </Link>
-
-            <Link to={"/computer"}>
-              <MenuItem>
-                <Text>Electronics</Text>
-              </MenuItem>
-            </Link>
-
-            <Link to={"/beauty"}>
-              <MenuItem>
-                <Text>Health</Text>
-              </MenuItem>
-            </Link>
             <Link to={"/patio-covers"}>
               <MenuItem>
                 <Text>Holiday</Text>
