@@ -1,4 +1,6 @@
-import { Grid, GridItem, Box, Text, Link as ChakraLink } from "@chakra-ui/react";
+import { Grid, GridItem, Box, Text,Button
+    ,
+   Link as ChakraLink } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const Section1 = () => {
@@ -30,7 +32,7 @@ const Section1 = () => {
       <GridItem colSpan={3} bg='papayawhip'>
       
         <Box p={4}>
-          <Text fontWeight="bold" fontSize="lg" mb={2}>News</Text>
+          <Text fontWeight="bold" fontSize="lg" mb={2}>University News</Text>
           {newsData.map((item) => (
             <Box key={item.id} mb={4}>
               <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
@@ -43,7 +45,22 @@ const Section1 = () => {
       <GridItem colSpan={2} bg='papayawhip'>
        
         <Box p={4}>
-          <Text fontWeight="bold" fontSize="lg" mb={2}>Research</Text>
+          <Grid templateColumns='repeat(2, 1fr)' gap={6}>
+  <GridItem w='100%' h='10' bg='blue.500' >
+
+
+  <Text fontWeight="bold" fontSize="lg" mb={2}>Latest Research</Text>
+  </GridItem>
+  
+  <GridItem w="100%" h="10" bg="blue.500">
+  <Button colorScheme="cyan" justifySelf="left">
+    See All
+  </Button>
+</GridItem>
+
+</Grid>
+          
+        
           {researchData.map((item) => (
             <Box key={item.id} mb={4}>
               <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
