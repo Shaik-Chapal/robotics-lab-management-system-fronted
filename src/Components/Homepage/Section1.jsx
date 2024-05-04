@@ -1,5 +1,5 @@
 import { Grid, GridItem, Box, Text,Button
-    ,
+    ,Flex, Spacer,
    Link as ChakraLink } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
@@ -32,7 +32,18 @@ const Section1 = () => {
       <GridItem colSpan={3} bg='papayawhip'>
       
         <Box p={4}>
-          <Text fontWeight="bold" fontSize="lg" mb={2}>University News</Text>
+        <Flex>
+            <Box  bg='red.200'>
+            <Text fontWeight="bold" fontSize="lg" p={2}>University News</Text>
+            </Box>
+            <Spacer />
+            <Box  >
+            <Button colorScheme="red" >
+              <Link to="/universitynews">See All</Link> {/* Link wraps the button */}
+              </Button>
+            </Box>
+          </Flex>
+          
           {newsData.map((item) => (
             <Box key={item.id} mb={4}>
               <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
@@ -45,21 +56,19 @@ const Section1 = () => {
       <GridItem colSpan={2} bg='papayawhip'>
        
         <Box p={4}>
-          <Grid templateColumns='repeat(2, 1fr)' gap={6}>
-  <GridItem w='100%' h='10' bg='blue.500' >
-
-
-  <Text fontWeight="bold" fontSize="lg" mb={2}>Latest Research</Text>
-  </GridItem>
-  
-  <GridItem w="100%" h="10" bg="blue.500">
-  <Button colorScheme="cyan" justifySelf="left">
-    See All
-  </Button>
-</GridItem>
-
-</Grid>
           
+          <Flex>
+            <Box  bg='red.200'>
+            <Text fontWeight="bold" fontSize="lg" p={2}>Latest Research</Text>
+            </Box>
+            <Spacer />
+            <Box  >
+            <Button colorScheme="red" >
+            <Link to="/researchnews">See All</Link> {/* Link wraps the button */}
+              </Button>
+            </Box>
+          </Flex>
+                    
         
           {researchData.map((item) => (
             <Box key={item.id} mb={4}>
@@ -73,7 +82,19 @@ const Section1 = () => {
       <GridItem colSpan={5} bg='tomato'>
        
         <Box p={4}>
-          <Text fontWeight="bold" fontSize="lg" mb={2}>Featured Content</Text>
+        <Flex>
+            <Box  bg='blue.100'>
+            <Text fontWeight="bold" fontSize="lg" p={2}>Featured Content</Text>
+            </Box>
+            <Spacer />
+            <Box  >
+            <Button colorScheme="cyan" >
+                See Alll
+              </Button>
+            </Box>
+          </Flex>
+                    
+          
           {featuredData.map((item) => (
             <Box key={item.id} mb={4}>
               <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
