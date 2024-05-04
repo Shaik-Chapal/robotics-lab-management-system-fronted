@@ -89,7 +89,8 @@ const Section1 = () => {
             <Spacer />
             <Box  >
             <Button colorScheme="cyan" >
-                See Alll
+               
+            <Link to="/featurecontent">See All</Link> {/* Link wraps the button */}
               </Button>
             </Box>
           </Flex>

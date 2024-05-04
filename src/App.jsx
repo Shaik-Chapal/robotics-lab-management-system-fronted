@@ -3,6 +3,7 @@ import './App.css'
 import Home from './Pages/Home'
 import UniversityNews from './Pages/Home/UniversityNews'
 import ResearchNews from './Pages/Home/ResearchNews'
+import FeaturedContent from './Pages/Home/FeaturedContent'
 import LoginPage from './Pages/LoginPage'
 import SignupPage from './Pages/SignupPage'
 import StudentPage from './Pages/User/StudentPage'
@@ -28,6 +29,7 @@ function App() {
       <Route path='/department' element={<DepartmentPage/>} />
       <Route path='/universitynews' element={<UniversityNews/>} />
       <Route path='/researchnews' element={<ResearchNews/>} />
+      <Route path='/featurecontent' element={<FeaturedContent/>} />
     
      </Routes>
     </>
