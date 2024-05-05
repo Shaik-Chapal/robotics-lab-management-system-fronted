@@ -220,13 +220,13 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/computer"}>
+            <Link to={"/supplier"}>
               <MenuItem>
                 <Text>Supplier</Text>
               </MenuItem>
             </Link>
 
-            <Link to={"/patio-covers"}>
+            <Link to={"/holiday"}>
               <MenuItem>
                 <Text>Holiday</Text>
               </MenuItem>
@@ -247,7 +247,7 @@ const Header = () => {
             Inventory Management Module
           </MenuButton>
           <MenuList color={"black"}>
-          <Link to={"/random"}>
+          <Link to={"/labInstrumentPage"}>
               <MenuItem>
                 <Text>Product</Text>
               </MenuItem>
@@ -259,9 +259,9 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/beauty"}>
+            <Link to={"/stockManagement"}>
               <MenuItem>
-                <Text>Warehouse Management</Text>
+                <Text>Stock Management</Text>
               </MenuItem>
             </Link>
 
