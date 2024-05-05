@@ -15,6 +15,8 @@ import StaffPage from './Pages/User/StaffPage'
 import StaffList from './Pages/User/StaffList'
 import LabInstrumentItemPage from './Pages/Inventory/LabInstrumentItemPage'
 import StockManagement from './Pages/Inventory/StockManagement'
+import InventoryTracking from './Pages/Inventory/InventoryTracking'
+import AlertsNotifications from './Pages/Inventory/AlertsNotifications'
 
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
       <Route path='/supplier' element={<Supplier/>} />
       <Route path='/labInstrumentPage' element={<LabInstrumentItemPage/>} />
       <Route path='/stockManagement' element={<StockManagement/>} />
+      <Route path='/inventoryTracking' element={<InventoryTracking/>} />
+      <Route path='/alertsNotifications' element={<AlertsNotifications/>} />
     
      </Routes>
     </>

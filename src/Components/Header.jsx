@@ -253,7 +253,7 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/baby"}>
+            <Link to={"/inventoryTracking"}>
               <MenuItem>
                 <Text>Inventory Tracking</Text>
               </MenuItem>
@@ -265,9 +265,9 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/computer"}>
+            <Link to={"/alertsNotifications"}>
               <MenuItem>
-                <Text>Alerts and Notifications:</Text>
+                <Text>Alerts and Notifications</Text>
               </MenuItem>
             </Link>
 
