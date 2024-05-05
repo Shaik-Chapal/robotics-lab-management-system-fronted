@@ -296,7 +296,7 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/baby"}>
+            <Link to={"/researchnews"}>
               <MenuItem>
                 <Text>Research Project </Text>
               </MenuItem>
@@ -308,11 +308,7 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/computer"}>
-              <MenuItem>
-                <Text>Alerts and Notifications:</Text>
-              </MenuItem>
-            </Link>
+          
 
            
 
@@ -333,19 +329,19 @@ const Header = () => {
              Communication and Collaboration 
           </MenuButton>
           <MenuList color={"black"}>
-          <Link to={"/random"}>
+          <Link to={"/schedulingModule"}>
               <MenuItem>
                 <Text>Scheduling Module</Text>
               </MenuItem>
             </Link>
 
-            <Link to={"/baby"}>
+            <Link to={"/messageSystem"}>
               <MenuItem>
                 <Text>Message System</Text>
               </MenuItem>
             </Link>
 
-            <Link to={"/beauty"}>
+            <Link to={"/feedback"}>
               <MenuItem>
                 <Text> Feedback</Text>
               </MenuItem>

@@ -17,8 +17,9 @@ import LabInstrumentItemPage from './Pages/Inventory/LabInstrumentItemPage'
 import StockManagement from './Pages/Inventory/StockManagement'
 import InventoryTracking from './Pages/Inventory/InventoryTracking'
 import AlertsNotifications from './Pages/Inventory/AlertsNotifications'
-
-
+import SchedulingModule from './Pages/Communication/SchedulingModule'
+import MessageSystem from './Pages/Communication/MessageSystem'
+import Feedback from './Pages/Communication/Feedback'
 function App() {
 
 
@@ -42,6 +43,9 @@ function App() {
       <Route path='/stockManagement' element={<StockManagement/>} />
       <Route path='/inventoryTracking' element={<InventoryTracking/>} />
       <Route path='/alertsNotifications' element={<AlertsNotifications/>} />
+      <Route path='/schedulingModule' element={<SchedulingModule/>} />
+      <Route path='/messageSystem' element={<MessageSystem/>} />
+      <Route path='/feedback' element={<Feedback/>} />
     
      </Routes>
     </>
