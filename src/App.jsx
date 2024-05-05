@@ -14,12 +14,17 @@ import DepartmentPage from './Pages/User/DepartmentPage'
 import StaffPage from './Pages/User/StaffPage'
 import StaffList from './Pages/User/StaffList'
 import LabInstrumentItemPage from './Pages/Inventory/LabInstrumentItemPage'
-import StockManagement from './Pages/Inventory/StockManagement'
+import EquipmentManagementScreen from './Pages/Inventory/EquipmentManagementScreen'
 import InventoryTracking from './Pages/Inventory/InventoryTracking'
 import AlertsNotifications from './Pages/Inventory/AlertsNotifications'
+import InventoryControl from './Pages/Inventory/InventoryControl'
 import SchedulingModule from './Pages/Communication/SchedulingModule'
 import MessageSystem from './Pages/Communication/MessageSystem'
 import Feedback from './Pages/Communication/Feedback'
+import EquipmentRequestSystem from './Pages/Lab/EquipmentRequestSystem'
+import ResourceApproval from './Pages/Lab/ResourceApproval'
+import ResultSharing from './Pages/Lab/ResultSharing'
+
 function App() {
 
 
@@ -40,13 +45,17 @@ function App() {
       <Route path='/holiday' element={<Holiday/>} />
       <Route path='/supplier' element={<Supplier/>} />
       <Route path='/labInstrumentPage' element={<LabInstrumentItemPage/>} />
-      <Route path='/stockManagement' element={<StockManagement/>} />
+      <Route path='/stockManagement' element={<EquipmentManagementScreen/>} />
       <Route path='/inventoryTracking' element={<InventoryTracking/>} />
       <Route path='/alertsNotifications' element={<AlertsNotifications/>} />
       <Route path='/schedulingModule' element={<SchedulingModule/>} />
       <Route path='/messageSystem' element={<MessageSystem/>} />
       <Route path='/feedback' element={<Feedback/>} />
-    
+      <Route path='/inventoryControl' element={<InventoryControl/>} />
+      <Route path='/equipmentRequestSystem' element={<EquipmentRequestSystem/>} />
+      <Route path='/resourceApproval' element={<ResourceApproval/>} />
+      <Route path='/resultSharing' element={<ResultSharing/>} />
+      
      </Routes>
     </>
   )

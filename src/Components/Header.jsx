@@ -122,12 +122,7 @@ const Header = () => {
           display={["none", "none", "flex", "flex"]}
           cursor={"pointer"}
         >
-          <Link to={"/"}>
-            <img
-              src="https://www.costco.com/wcsstore/CostcoGLOBALSAS/images/Costco_Logo-1.png"
-              alt=""
-            />
-          </Link>
+        
         </Flex>
 
        
@@ -255,6 +250,11 @@ const Header = () => {
               </MenuItem>
             </Link>
 
+            <Link to={"/inventoryControl"}>
+              <MenuItem>
+                <Text>Inventory Control</Text>
+              </MenuItem>
+            </Link>
             <Link to={"/stockManagement"}>
               <MenuItem>
                 <Text>Stock Management</Text>
@@ -286,9 +286,9 @@ const Header = () => {
             Lab Resource Management 
           </MenuButton>
           <MenuList color={"black"}>
-          <Link to={"/random"}>
+          <Link to={"/equipmentRequestSystem"}>
               <MenuItem>
-                <Text>Equipment Availability Tracking</Text>
+                <Text>Equipment Request System</Text>
               </MenuItem>
             </Link>
 
@@ -298,14 +298,19 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/beauty"}>
+            <Link to={"/resourceApproval"}>
               <MenuItem>
                 <Text>Resource Allocation</Text>
               </MenuItem>
             </Link>
 
+            <Link to={"/resultSharing"}>
+              <MenuItem>
+                <Text>Result Sharing</Text>
+              </MenuItem>
+            </Link>
           
-
+            
            
 
             
