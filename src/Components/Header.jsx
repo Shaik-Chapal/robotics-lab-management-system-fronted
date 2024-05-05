@@ -103,9 +103,7 @@ const Header = () => {
           </SimpleGrid>
           <SimpleGrid textAlign={"center"}>
             <Link to="/cart">
-              <Flex w={["73%", "20%"]} m={"auto"}>
-                <img src="src\assets\grocery-store.png" alt="" />
-              </Flex>
+             
               <Text>Schedule</Text>
             </Link>
           </SimpleGrid>
@@ -180,9 +178,7 @@ const Header = () => {
                 cursor: "pointer",
               }}
             >
-              <Box width={"5"}>
-                <img src="src\assets\grocery-store.png" alt="" />
-              </Box>{" "}
+             
               Schedule
             </Flex>
           </Link>

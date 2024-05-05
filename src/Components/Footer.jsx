@@ -63,14 +63,11 @@ const Footer = () => {
                 fontSize={"20px"}
                 mb={3}
               >
-                Customer Service
+                Student Service
               </Text>
 
               <SimpleGrid color={"rgb(95, 95, 95)"}>
               
-                <Text _hover={{ textDecoration: "underline" }}>
-                  Request a Product
-                </Text>
               
                
               </SimpleGrid>
@@ -88,9 +85,7 @@ const Footer = () => {
               </Text>
 
               <SimpleGrid color={"rgb(95, 95, 95)"}>
-                <Text _hover={{ textDecoration: "underline" }}>
-                  Find a Warehouse
-                </Text>
+               
                 
               
               </SimpleGrid>

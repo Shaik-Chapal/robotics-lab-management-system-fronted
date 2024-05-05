@@ -12,18 +12,18 @@ import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 
 const InventoryTracking = () => {
-  // Sample inventory data
+
   const [inventory, setInventory] = useState([
-    { id: 1, name: "Lab Instrument 1", quantity: 10 },
-    { id: 2, name: "Lab Instrument 2", quantity: 5 },
-    { id: 3, name: "Lab Instrument 3", quantity: 8 },
-    { id: 4, name: "Lab Instrument 4", quantity: 15 },
-    { id: 5, name: "Lab Instrument 5", quantity: 3 },
-    { id: 6, name: "Lab Instrument 6", quantity: 7 },
-    { id: 7, name: "Lab Instrument 7", quantity: 12 },
-    { id: 8, name: "Lab Instrument 8", quantity: 6 },
-    { id: 9, name: "Lab Instrument 9", quantity: 9 },
-    { id: 10, name: "Lab Instrument 10", quantity: 2 },
+    { id: 1, name: "Microscope", quantity: 10, description: "Used to observe very small objects." },
+    { id: 2, name: "Test Tube", quantity: 5, description: "Holds and mixes liquid chemicals." },
+    { id: 3, name: "Watch Glass", quantity: 8, description: "Stores solids, evaporates liquids, heats small amounts of substances." },
+    { id: 4, name: "Crucible", quantity: 15, description: "Heats substances at high temperatures." },
+    { id: 5, name: "Volumetric Flask", quantity: 3, description: "Holds a specific volume of liquid for accurate measurements." },
+    { id: 6, name: "Beaker", quantity: 7, description: "Heats, mixes, and stores liquids." },
+    { id: 7, name: "Bunsen Burner", quantity: 12, description: "Provides a heat source for experiments." },
+    { id: 8, name: "Spatula", quantity: 6, description: "Scoops and transfers solid chemicals." },
+    { id: 9, name: "Magnifying Glass", quantity: 9, description: "Enlarges objects for closer observation." },
+    { id: 10, name: "Spring Balance", quantity: 2, description: "Measures the weight of objects." },
   ]);
 
   // State for search query

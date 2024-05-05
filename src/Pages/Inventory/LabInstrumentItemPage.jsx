@@ -23,24 +23,40 @@ const LabInstrumentItemPage = () => {
     { id: 2, name: 'Supplier B' },
     { id: 3, name: 'Supplier C' },
   ]);
-
   const labInstrumentList = [
     {
       id: 1,
-      name: "Microscope",
+      name: "EEE Microscope", // Updated name
       quantity: 5,
       usage: "Used to view small objects at high magnification.",
       supplier: "Acme Scientific",
     },
     {
       id: 2,
-      name: "Bunsen Burner",
+      name: "EEE Bunsen Burner", // Updated name
       quantity: 3,
       price: 20.00,
       usage: "Used for heating substances in a laboratory.",
       supplier: "BioMart",
     },
-    // Add more instruments to the array
+    
+    {
+      id: 3,
+      name: "pH Meter",
+      quantity: 2,
+      price: 50.00,
+      usage: "Used to measure the acidity or alkalinity of a substance.",
+      supplier: "LabTech Solutions",
+    },
+    {
+      id: 4,
+      name: "Spectrophotometer",
+      quantity: 1,
+      price: 500.00,
+      usage: "Used to measure the intensity of light.",
+      supplier: "SciAnalytica",
+    },
+    
   ];
   
   // State for form input values
