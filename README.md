@@ -12,7 +12,7 @@ git clone https://github.com/Shaik-Chapal/robotics-lab-management-system-fronted
 This command uses Git to clone a remote repository from GitHub. The URL specifies the location of the repository: https://github.com/Shaik-Chapal/robotics-lab-management-system-fronted.git. Cloning creates a local copy of the repository on machine. 
 
 ```bash
-cd robotics-lab-management-system-frontedfronted.git
+cd robotics-lab-management-system-frontedfronted
 ```
 This command changes the directory in terminal to the newly cloned directory named robotics-lab-management-system-fronted.
 
