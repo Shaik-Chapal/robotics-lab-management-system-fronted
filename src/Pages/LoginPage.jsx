@@ -14,33 +14,59 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { Authentication } from "../Redux/actionItems";
+import { Routes, Route } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const state = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
+  
+
+
   const toast = useToast();
 
-  const handleLogin = () => {
-    let token = JSON.parse(localStorage.getItem("credentials")) || {};
-
-    if ("email" === email && "pass" === password) {
-      dispatch({ type: Authentication });
-    } else {
-      let cartObj = {
-        title: "Failed",
-        description: `Wrong Credentials`,
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("https://localhost:7161/Login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+      
+        toast({
+          title: "Login Successful",
+          description: "Welcome back!",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        dispatch({ type: Authentication });
+      } else {
+        toast({
+          title: "Login Failed",
+          description: data.message || "An error occurred",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast({
+        title: "Login Failed",
+        description: "An error occurred. Please try again later.",
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
-      };
-      toast(cartObj);
+      });
     }
-
-    console.log("token: ", token);
   };
-
   if (state.isAuth) {
     return <Navigate to={"/"} />;
   }
