@@ -70,53 +70,22 @@ const Header = () => {
         Robotics Lab Management System
       </Text>
 
-      <SimpleGrid
-        display={["grid", "grid", "none", "none"]}
-        gridTemplateColumns={"repeat(2,1fr)"}
-        alignItems={"center"}
-        bg={"#EEEEEE"}
-        gap={15}
-        pl={5}
-        pt={4}
-        pr={5}
-      >
-       
-        <SimpleGrid
-          gap={6}
-          gridTemplateColumns={"repeat(3,1fr)"}
-          alignItems={"center"}
-          color={"#0060A9"}
-          fontSize={"16px"}
-          fontWeight={400}
-        >
-          <SimpleGrid textAlign={"center"}>
-            <Flex w={["20%", "20%"]} m={"auto"}>
-              <img src="src\assets\maps-and-flags.png" alt="" />
-            </Flex>
-            <Text>Warehouses</Text>
-          </SimpleGrid>
-          <SimpleGrid textAlign={"center"}>
-            <Flex w={["30%", "20%"]} margin={"auto"}>
-              <img src="src\assets\user.png" alt="" />
-            </Flex>
-            <Text>Account</Text>
-          </SimpleGrid>
-          <SimpleGrid textAlign={"center"}>
-            <Link to="/cart">
-             
-              <Text>Schedule</Text>
-            </Link>
-          </SimpleGrid>
-        </SimpleGrid>
-      </SimpleGrid>
+    
       <SimpleGrid
         bg={"#EEEEEE"}
         gridTemplateColumns={["1fr", "1fr", "0.4fr 2fr 1fr", "0.4fr 2fr 1fr"]}
         p={5}
         gap={7}
         alignItems={"center"}
-        pl={["5", "5", "5", "16"]}
+      
       >
+        <Flex
+          justifyContent={"center"}
+          display={["none", "none", "flex", "flex"]}
+          cursor={"pointer"}
+        >
+        
+        </Flex>
         <Flex
           justifyContent={"center"}
           display={["none", "none", "flex", "flex"]}
@@ -129,6 +98,7 @@ const Header = () => {
        
         <Flex
           gap={6}
+         
           justifyContent={"center"}
           color={"#0060A9"}
           fontSize={"16px"}
@@ -153,31 +123,22 @@ const Header = () => {
           <Text fontSize="100%" mt="-0.8%" p="0.4%">
             |
           </Text>
+          <Link to="/profile">
+
           <Text
             _hover={{
               textDecoration: "underline solid rgb(0,96,169)",
               cursor: "pointer",
             }}
           >
-            Order & Returns
+            Profile
           </Text>
-          <Text fontSize="100%" mt="-0.8%" p="0.4%">
-            |
-          </Text>
-          <Link to={"/cart"}>
-            <Flex
-              alignItems={"center"}
-              gap={1}
-              _hover={{
-                textDecoration: "underline solid rgb(0,96,169)",
-                cursor: "pointer",
-              }}
-            >
-             
-              Schedule
-            </Flex>
           </Link>
+         
+         
         </Flex>
+      
+        
       </SimpleGrid>
 
       <Flex

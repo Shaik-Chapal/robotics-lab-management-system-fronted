@@ -13,8 +13,9 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { Authentication } from "../Redux/actionItems";
+import { Authentication ,BASE_URL} from "../Redux/actionItems";
 import { Routes, Route } from "react-router-dom";
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -28,7 +29,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("https://localhost:7161/Login", {
+      const response = await fetch(`${BASE_URL}/Login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Home from './Pages/Home'
 import UniversityNews from './Pages/Home/UniversityNews'
+import Profile from './Pages/Home/Profile'
 import ResearchNews from './Pages/Home/ResearchNews'
 import FeaturedContent from './Pages/Home/FeaturedContent'
 import LoginPage from './Pages/LoginPage'
@@ -40,6 +41,7 @@ function App() {
       <Route path='/stafflist' element={<StaffList/>} />
       <Route path='/department' element={<DepartmentPage/>} />
       <Route path='/universitynews' element={<UniversityNews/>} />
+      <Route path='/profile' element={<Profile/>}/>
       <Route path='/researchnews' element={<ResearchNews/>} />
       <Route path='/featurecontent' element={<FeaturedContent/>} />
       <Route path='/holiday' element={<Holiday/>} />
