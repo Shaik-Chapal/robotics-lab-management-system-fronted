@@ -1,106 +1,106 @@
-import { Grid, GridItem, Box, Text,Button
-    ,Flex, Spacer,
-   Link as ChakraLink } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Grid, GridItem, Box, Text, Button, Flex, Spacer, Link as ChakraLink } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../Redux/actionItems";
 
 const Section1 = () => {
-  
-  const newsData = [
-    { id: 1, title: "News 1", summary: "Summary of News 1", link: "/news/1" },
-    { id: 2, title: "News 2", summary: "Summary of News 2", link: "/news/2" },
-  
-  ];
+  const [newsData, setNewsData] = useState([]);
+  const [researchData, setResearchData] = useState([]);
+  const [featuredData, setFeaturedData] = useState([]);
 
-  const researchData = [
-    { id: 1, title: "Research 1", summary: "Summary of Research 1", link: "/research/1" },
-    { id: 2, title: "Research 2", summary: "Summary of Research 2", link: "/research/2" },
-   
-  ];
+  useEffect(() => {
+    // Fetch data for University News
+    fetch(`${BASE_URL}/api/Blog/TopTwoBlogs`)
+      .then((response) => response.json())
+      .then((data) => setNewsData(data))
+      .catch((error) => console.error("Error fetching University News:", error));
 
-  const featuredData = [
-    { id: 1, title: "Featured Content 1", summary: "Summary of Featured Content 1", link: "/featured/1" },
-    { id: 2, title: "Featured Content 2", summary: "Summary of Featured Content 2", link: "/featured/2" },
-   
-  ];
+    // Fetch data for Latest Research
+    fetch(`${BASE_URL}/api/Research/TopTwoResearchs`)
+      .then((response) => response.json())
+      .then((data) => setResearchData(data))
+      .catch((error) => console.error("Error fetching Latest Research:", error));
+
+    // Fetch data for Featured Content
+    fetch(`${BASE_URL}/api/FeaturedContent/TopTwoFeaturedContents`)
+      .then((response) => response.json())
+      .then((data) => setFeaturedData(data))
+      .catch((error) => console.error("Error fetching Featured Content:", error));
+  }, []);
 
   return (
     <Grid
-      templateRows='repeat(2, 1fr)'
-      templateColumns='repeat(5, 1fr)'
+      templateRows="repeat(2, 1fr)"
+      templateColumns="repeat(5, 1fr)"
       gap={4}
     >
-      <GridItem colSpan={3} bg='papayawhip'>
-      
+      <GridItem colSpan={3} bg="papayawhip">
         <Box p={4}>
-        <Flex>
-            <Box  bg='red.200'>
-            <Text fontWeight="bold" fontSize="lg" p={2}>University News</Text>
-            </Box>
-            <Spacer />
-            <Box  >
-            <Button colorScheme="red" >
-              <Link to="/universitynews">See All</Link> {/* Link wraps the button */}
-              </Button>
-            </Box>
-          </Flex>
-          
-          {newsData.map((item) => (
-            <Box key={item.id} mb={4}>
-              <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
-              <Text>{item.summary}</Text>
-              <ChakraLink as={Link} to={item.link} fontWeight="bold" color="blue.500">Read more</ChakraLink>
-            </Box>
-          ))}
-        </Box>
-      </GridItem>
-      <GridItem colSpan={2} bg='papayawhip'>
-       
-        <Box p={4}>
-          
           <Flex>
-            <Box  bg='red.200'>
-            <Text fontWeight="bold" fontSize="lg" p={2}>Latest Research</Text>
+            <Box bg="red.200">
+              <Text fontWeight="bold" fontSize="lg" p={2}>University News</Text>
             </Box>
             <Spacer />
-            <Box  >
-            <Button colorScheme="red" >
-            <Link to="/researchnews">See All</Link> {/* Link wraps the button */}
+            <Box>
+              <Button colorScheme="red">
+                <Link to="/universitynews">See All</Link>
               </Button>
             </Box>
           </Flex>
-                    
-        
-          {researchData.map((item) => (
-            <Box key={item.id} mb={4}>
+
+          {newsData.map((item) => (
+            <Box key={item.blogId} mb={4}>
               <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
-              <Text>{item.summary}</Text>
-              <ChakraLink as={Link} to={item.link} fontWeight="bold" color="blue.500">Read more</ChakraLink>
+              <Text>{item.content}</Text>
+              <ChakraLink as={Link} to={`/blog/${item.blogId}`} fontWeight="bold" color="blue.500">Read more</ChakraLink>
             </Box>
           ))}
         </Box>
       </GridItem>
-      <GridItem colSpan={5} bg='tomato'>
-       
+
+      <GridItem colSpan={2} bg="papayawhip">
         <Box p={4}>
-        <Flex>
-            <Box  bg='blue.100'>
-            <Text fontWeight="bold" fontSize="lg" p={2}>Featured Content</Text>
+          <Flex>
+            <Box bg="red.200">
+              <Text fontWeight="bold" fontSize="lg" p={2}>Latest Research</Text>
             </Box>
             <Spacer />
-            <Box  >
-            <Button colorScheme="cyan" >
-               
-            <Link to="/featurecontent">See All</Link> {/* Link wraps the button */}
+            <Box>
+              <Button colorScheme="red">
+                <Link to="/researchnews">See All</Link>
               </Button>
             </Box>
           </Flex>
-                    
-          
-          {featuredData.map((item) => (
-            <Box key={item.id} mb={4}>
+
+          {researchData.map((item) => (
+            <Box key={item.researchId} mb={4}>
               <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
               <Text>{item.summary}</Text>
-              <ChakraLink as={Link} to={item.link} fontWeight="bold" color="blue.500">Read more</ChakraLink>
+              <ChakraLink as={Link} to={`/research/${item.researchId}`} fontWeight="bold" color="blue.500">Read more</ChakraLink>
+            </Box>
+          ))}
+        </Box>
+      </GridItem>
+
+      <GridItem colSpan={5} bg="tomato">
+        <Box p={4}>
+          <Flex>
+            <Box bg="blue.100">
+              <Text fontWeight="bold" fontSize="lg" p={2}>Featured Content</Text>
+            </Box>
+            <Spacer />
+            <Box>
+              <Button colorScheme="cyan">
+                <Link to="/featurecontent">See All</Link>
+              </Button>
+            </Box>
+          </Flex>
+
+          {featuredData.map((item) => (
+            <Box key={item.contentId} mb={4}>
+              <Text fontWeight="bold" fontSize="lg">{item.title}</Text>
+              <Text>{item.summary}</Text>
+              <ChakraLink as={Link} to={item.fullContentLink} fontWeight="bold" color="blue.500">Read more</ChakraLink>
             </Box>
           ))}
         </Box>
