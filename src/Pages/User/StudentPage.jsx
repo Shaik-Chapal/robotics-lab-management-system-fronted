@@ -7,7 +7,8 @@ import {
   FormLabel,
   Input,
   Text,
-  Spacer
+  Spacer,
+  useToast
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
@@ -30,7 +31,7 @@ const StudentPage = () => {
     IdNumber: "",
     JoinDate: ""
   });
-
+  const toast = useToast();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -41,43 +42,98 @@ const StudentPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    
-    const newUser = {
-      id: formData.Id,
-      firstName: formData.FirstName,
-      lastName: formData.LastName,
-      email: formData.Email,
-      password: formData.Password, 
-      phoneNumber: formData.PhoneNumber,
-      currentAddress: formData.CurrentAddress,
-      department: formData.Department,
-      session: formData.Session,
-      idNumber: formData.IdNumber,
-      joinDate: formData.JoinDate,
-    };
-
+  
     try {
-      const response = await fetch(`${BASE_URL}/api/User`, {
+      
+      const registerResponse = await fetch(`${BASE_URL}/Register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.Email,
+          password: formData.Password,
+          phone: formData.PhoneNumber,
+          userRole:1 
+        })
+      });
+  
+      if (!registerResponse.ok) {
+        console.error('Failed to register user');
+        return;
+      }
+  
+    
+      const { userId } = await registerResponse.json();
+  
+    
+      const newUser = {
+        id: userId,
+        firstName: formData.FirstName,
+        lastName: formData.LastName,
+        email: formData.Email,
+        password: "n",
+        phoneNumber: formData.PhoneNumber,
+        CurrentAddress: formData.CurrentAddress,
+        department: formData.Department,
+        designation: formData.Department,
+        Session: formData.Session,
+        idNumber: formData.IdNumber,
+        joinDate: formData.JoinDate
+      };
+      console.log(newUser)
+  
+      const saveUserDataResponse = await fetch(`${BASE_URL}/api/User`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(newUser)
       });
-
-      if (response.ok) {
-        // Handle success, e.g., show success message, redirect to another page, etc.
-        console.log("User created successfully!");
+  
+      if (saveUserDataResponse.ok) {
+        console.log('User created successfully!');
+        toast({
+          title: "User saved successfully!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        
+        // Clear form fields
+        setFormData({
+          Id: "",
+          FirstName: "",
+          LastName: "",
+          Email: "",
+          Password: "" ,
+          PhoneNumber: "",
+          CurrentAddress: "",
+          Department: "",
+          Session: "",
+          IdNumber: "",
+          JoinDate: ""
+        });
       } else {
-        // Handle error
-        console.error("Failed to create user");
+        console.error('Failed to save user data');
+        toast({
+          title: "Failed to save user",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
+      toast({
+        title: "Failed to save user : "+error,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
-
+  
   return (
     <Box>
       <Header />
@@ -138,19 +194,9 @@ const StudentPage = () => {
                 />
               </FormControl>
 
-              <FormControl id="Password" isRequired mt={4}>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  type="password"
-                  name="Password"
-                  value={formData.Password}
-                  onChange={handleChange}
-                />
-              </FormControl>
+            
 
-              <Button type="submit" colorScheme="blue" mt={4}>
-                Save
-              </Button>
+           
             </form>
           </Box>
         </Box>
@@ -197,6 +243,15 @@ const StudentPage = () => {
                   type="text"
                   name="JoinDate"
                   value={formData.JoinDate}
+                  onChange={handleChange}
+                />
+              </FormControl>
+              <FormControl id="Password" isRequired mt={4}>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  name="Password"
+                  value={formData.Password}
                   onChange={handleChange}
                 />
               </FormControl>
