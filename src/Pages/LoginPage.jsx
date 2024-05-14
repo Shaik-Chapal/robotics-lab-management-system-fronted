@@ -39,7 +39,8 @@ const LoginPage = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("token", data.token);
-      
+        const userId = data.data.user.id;
+        localStorage.setItem("userId", userId);
         toast({
           title: "Login Successful",
           description: "Welcome back!",
