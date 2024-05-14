@@ -140,7 +140,7 @@ const StudentPage = () => {
 
       <Flex justify="center">
         <Box w="50%" px={4}>
-          <Box maxW="md" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
+          <Box maxW="auto" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
               Create Student
             </Text>
@@ -202,7 +202,7 @@ const StudentPage = () => {
         </Box>
 
         <Box w="50%" px={4}>
-          <Box maxW="md" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
+          <Box maxW="auto" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
               Additional Information
             </Text>

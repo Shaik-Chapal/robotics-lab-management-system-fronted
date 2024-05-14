@@ -69,7 +69,25 @@ const Profile = () => {
               <Text fontSize="md" color="gray.600">
                 {userData.email}
               </Text>
-              {/* Render other user profile data here */}
+              <Text fontSize="md" color="gray.600">
+                {userData.phoneNumber}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                {userData.currentAddress}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                {userData.department}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                {userData.designation}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                {userData.idNumber}
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                {userData.session}
+              </Text>
+              
             </Box>
           </Box>
         </Flex>

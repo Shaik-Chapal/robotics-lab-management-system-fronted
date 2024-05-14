@@ -11,6 +11,7 @@ import StudentPage from './Pages/User/StudentPage'
 import Holiday from './Pages/User/Holiday'
 import Supplier from './Pages/User/Supplier'
 import StudentList from './Pages/User/StudentList'
+import University from './Pages/User/University'
 import DepartmentPage from './Pages/User/DepartmentPage'
 import StaffPage from './Pages/User/StaffPage'
 import StaffList from './Pages/User/StaffList'
@@ -38,6 +39,7 @@ function App() {
       <Route path='/student' element={<StudentPage/>} />
       <Route path='/studentlist' element={<StudentList/>} />
       <Route path='/staff' element={<StaffPage/>} />
+      <Route path='/university' element={<University/>} />
       <Route path='/stafflist' element={<StaffList/>} />
       <Route path='/department' element={<DepartmentPage/>} />
       <Route path='/universitynews' element={<UniversityNews/>} />

@@ -16,14 +16,33 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../Redux/actionItems";
+import { logout ,BASE_URL} from "../Redux/actionItems";
 
 const Header = () => {
   const state = useSelector((state) => state.authentication);
   const dispatch = useDispatch();
+
+  const [universityData, setUniversityData] = useState(null);
+
+  useEffect(() => {
+    fetchUniversityData();
+  }, []);
+
+  const fetchUniversityData = async () => {
+    try {
+      const response =  await fetch(`${BASE_URL}/api/v1/University`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setUniversityData(data);
+    } catch (error) {
+      console.error("Error fetching university data:", error);
+    }
+  };
 
   const Logout = () => {
     return (
@@ -161,6 +180,11 @@ const Header = () => {
             User Management 
           </MenuButton>
           <MenuList color={"black"}>
+          <Link to={"/university"}>
+              <MenuItem>
+                <Text>University</Text>
+              </MenuItem>
+            </Link>
           <Link to={"/department"}>
               <MenuItem>
                 <Text>Department</Text>
@@ -169,6 +193,11 @@ const Header = () => {
             <Link to={"/student"}>
               <MenuItem>
                 <Text>Student</Text>
+              </MenuItem>
+            </Link>
+            <Link to={"/staff"}>
+              <MenuItem>
+                <Text>Staff</Text>
               </MenuItem>
             </Link>
 
@@ -352,27 +381,21 @@ const Header = () => {
       </Flex>
 
       <Flex boxShadow={"base"} p={4} pl={14} justifyContent={"space-between"}>
-        <Flex gap={["2", "2", "4", "10"]}>
-          <SimpleGrid>
-            <Text fontSize={"12px"} fontWeight={400}>
-            Oulu University of Applied Sciences 
-            </Text>
-            <Flex alignItems={"center"}>
-              <Box w={4}>
-                {" "}
-                <img src="src\assets\maps-and-flags.png" alt="" />
-              </Box>{" "}
-              <Text fontWeight={600}>Yliopistokatu 9, 90570 Oulu, Finland</Text>
-            </Flex>
-            <Text fontSize={"12px"} fontWeight={400} color={"red"}>
-              Closed: Open 10:00AM Friday
-            </Text>
-          </SimpleGrid>
-
-          
-        </Flex>
-
-       
+        {universityData && (
+          <Flex gap={["2", "2", "4", "10"]}>
+            <SimpleGrid>
+              <Text fontSize={"12px"} fontWeight={400}>
+                {universityData.name}
+              </Text>
+              <Flex alignItems={"center"}>
+                <Text fontWeight={600}>{universityData.address}</Text>
+              </Flex>
+              <Text fontSize={"12px"} fontWeight={400} color={"red"}>
+                {`Closed: ${universityData.closeTime}. Open : ${universityData.openTime} `}
+              </Text>
+            </SimpleGrid>
+          </Flex>
+        )}
       </Flex>
     </Box>
   );
