@@ -13,6 +13,7 @@ import Supplier from './Pages/User/Supplier'
 import StudentList from './Pages/User/StudentList'
 import University from './Pages/User/University'
 import DepartmentPage from './Pages/User/DepartmentPage'
+import DepartmentList from './Pages/User/DepartmentList'
 import StaffPage from './Pages/User/StaffPage'
 import StaffList from './Pages/User/StaffList'
 import LabInstrumentItemPage from './Pages/Inventory/LabInstrumentItemPage'
@@ -42,6 +43,7 @@ function App() {
       <Route path='/university' element={<University/>} />
       <Route path='/stafflist' element={<StaffList/>} />
       <Route path='/department' element={<DepartmentPage/>} />
+      <Route path='/departmentList' element={<DepartmentList/>} />
       <Route path='/universitynews' element={<UniversityNews/>} />
       <Route path='/profile' element={<Profile/>}/>
       <Route path='/researchnews' element={<ResearchNews/>} />

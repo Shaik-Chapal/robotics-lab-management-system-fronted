@@ -12,16 +12,13 @@ import {
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../Redux/actionItems"; // Import BASE_URL
 
 const DepartmentPage = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    currentAddress: "",
-    department: "",
-    session: "",
-    idNumber: "",
+    name: "",
+    address: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
@@ -32,10 +29,25 @@ const DepartmentPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission, e.g., send data to backend
-    console.log(formData);
+    try {
+      const response = await fetch(`${BASE_URL}/api/v1/Department`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        // Handle success, e.g., show a success message or redirect
+        console.log("Department created successfully");
+      } else {
+        console.error("Failed to create department");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -44,105 +56,52 @@ const DepartmentPage = () => {
 
       <Flex justify="center">
         <Box w="50%" px={4}>
-          <Box maxW="md" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
+          <Box maxW="auto" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
-              Create Student
+              Create Department
             </Text>
             <form onSubmit={handleSubmit}>
-              <FormControl id="firstName" isRequired>
-                <FormLabel>First Name</FormLabel>
+              <FormControl id="name" isRequired>
+                <FormLabel>Department Name</FormLabel>
                 <Input
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                 />
               </FormControl>
 
-              <FormControl id="lastName" isRequired mt={4}>
-                <FormLabel>Last Name</FormLabel>
+              <FormControl id="address" isRequired mt={4}>
+                <FormLabel>Address</FormLabel>
                 <Input
                   type="text"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="address"
+                  value={formData.address}
                   onChange={handleChange}
                 />
               </FormControl>
 
-              
-
-              <FormControl id="department" isRequired mt={4}>
-                <FormLabel>Department</FormLabel>
-                <Input
-                  type="text"
-                  name="department"
-                  value={formData.department}
-                  onChange={handleChange}
-                />
-              </FormControl>
-              <FormControl id="currentAddress" isRequired mt={4}>
-                <FormLabel>Current Address</FormLabel>
-                <Input
-                  type="text"
-                  name="currentAddress"
-                  value={formData.currentAddress}
-                  onChange={handleChange}
-                />
-              </FormControl>
-            </form>
-          </Box>
-        </Box>
-
-        <Box w="50%" px={4}>
-          <Box maxW="md" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
-            <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
-              Additional Information
-            </Text>
-            <form onSubmit={handleSubmit}>
-            <FormControl id="phoneNumber" isRequired mt={4}>
+              <FormControl id="phone" isRequired mt={4}>
                 <FormLabel>Phone Number</FormLabel>
                 <Input
-                  type="tel"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
                   onChange={handleChange}
                 />
               </FormControl>
 
-              
-              <FormControl id="session" isRequired>
-                <FormLabel>Session</FormLabel>
-                <Input
-                  type="text"
-                  name="session"
-                  value={formData.session}
-                  onChange={handleChange}
-                />
-              </FormControl>
-
-              <FormControl id="idNumber" isRequired mt={4}>
-                <FormLabel>ID Number</FormLabel>
-                <Input
-                  type="text"
-                  name="idNumber"
-                  value={formData.idNumber}
-                  onChange={handleChange}
-                />
-              </FormControl>
               <Flex justify="space-between" alignItems="center" mt={6}>
-                <Button type="submit" colorScheme="blue" flexGrow={1}>
-                    Save
-                </Button>
-                <Spacer />
-                <Link to={"/studentlist"}>
-                <Button type="button" colorScheme="green" flexGrow={1}>
-                    List 
-                </Button>
-                </Link>
-
-            </Flex>
-
-
+      <Button type="submit" colorScheme="blue" style={{ width: "calc(50% - 4px)" }}>
+        Save
+      </Button>
+      <Spacer />
+      <Link to={"/departmentList"} style={{ width: "calc(50% - 4px)" }}>
+        <Button type="button" colorScheme="green" style={{ width: "100%" }}>
+          List 
+        </Button>
+      </Link>
+    </Flex>
             </form>
           </Box>
         </Box>
