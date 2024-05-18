@@ -54,20 +54,11 @@ const LabInstrumentItemPage = () => {
       equipmentID: uuidv4(),
       equipmentName: newInstrumentName,
       description: newInstrumentUsage,
-      quantity: 0,
+
       location: newInstrumentQuantity,
       groupID: selectedGroup,
-      lastMaintenanceDate: new Date().toISOString(),
-      manufacturer: "Unknown",
-      modelNumber: "N/A",
-      company: selectedSupplier,
-      origin: "N/A",
-      threshold: {
-        thresholdId: uuidv4(),
-        itemId: uuidv4(),
-        lowStockThreshold: 10,
-        notificationMethod: "Email"
-      }
+
+
     };
 
     axios.post(`${BASE_URL}/api/v1/Equipment`, newInstrument)

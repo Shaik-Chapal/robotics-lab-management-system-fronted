@@ -17,6 +17,8 @@ import DepartmentList from './Pages/User/DepartmentList'
 import StaffPage from './Pages/User/StaffPage'
 import StaffList from './Pages/User/StaffList'
 import LabInstrumentItemPage from './Pages/Inventory/LabInstrumentItemPage'
+import GroupScreen from './Pages/Inventory/GroupScreen'
+import PurchaseOrder from './Pages/Inventory/PurchaseOrder'
 import EquipmentManagementScreen from './Pages/Inventory/EquipmentManagementScreen'
 import InventoryTracking from './Pages/Inventory/InventoryTracking'
 import AlertsNotifications from './Pages/Inventory/AlertsNotifications'
@@ -57,6 +59,8 @@ function App() {
       <Route path='/schedulingModule' element={<SchedulingModule/>} />
       <Route path='/messageSystem' element={<MessageSystem/>} />
       <Route path='/feedback' element={<Feedback/>} />
+      <Route path='/groupScreen' element={<GroupScreen/>} />
+      <Route path='/purchaseOrder' element={<PurchaseOrder/>} />
       <Route path='/inventoryControl' element={<InventoryControl/>} />
       <Route path='/equipmentRequestSystem' element={<EquipmentRequestSystem/>} />
       <Route path='/resourceApproval' element={<ResourceApproval/>} />

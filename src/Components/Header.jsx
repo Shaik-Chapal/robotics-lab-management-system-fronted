@@ -228,9 +228,19 @@ const Header = () => {
             Inventory Management Module
           </MenuButton>
           <MenuList color={"black"}>
+          <Link to={"/groupScreen"}>
+              <MenuItem>
+                <Text>Group</Text>
+              </MenuItem>
+            </Link>
           <Link to={"/labInstrumentPage"}>
               <MenuItem>
                 <Text>Product</Text>
+              </MenuItem>
+            </Link>
+            <Link to={"/purchaseOrder"}>
+              <MenuItem>
+                <Text>Purchase Order</Text>
               </MenuItem>
             </Link>
 
