@@ -7,11 +7,13 @@ import {
   Button,
   Input,
   Select,
+  useToast
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
+import { BASE_URL } from "../../Redux/actionItems";
 
 const StudentAddRequest = () => {
   const [equipment, setEquipment] = useState([]);
@@ -21,12 +23,12 @@ const StudentAddRequest = () => {
   const [quantity, setQuantity] = useState(1);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const toast = useToast();
 
   // Fetch data from API
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch equipment data
-      const equipmentResponse = await fetch(`https://localhost:7161/api/v1/Equipment`);
+      const equipmentResponse = await fetch(`${BASE_URL}/api/v1/Equipment`);
       const equipmentData = await equipmentResponse.json();
       setEquipment(equipmentData);
     };
@@ -68,7 +70,7 @@ const StudentAddRequest = () => {
         })),
       };
 
-      const response = await fetch("https://localhost:7161/api/EquipmentLogs", {
+      const response = await fetch(`${BASE_URL}/api/EquipmentLogs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,9 +79,26 @@ const StudentAddRequest = () => {
       });
 
       if (response.ok) {
-        console.log("Scheduled successfully");
+        toast({
+          title: "Success",
+          description: "Equipment request scheduled successfully.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        // Clear form fields
+        setAction("");
+        setSelectedEquipmentList([]);
+        setStartDate(new Date());
+        setEndDate(new Date());
       } else {
-        console.error("Error scheduling request");
+        toast({
+          title: "Error",
+          description: "There was an error scheduling the equipment request.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     }
   };
