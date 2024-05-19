@@ -286,11 +286,18 @@ const Header = () => {
             Lab Resource Management 
           </MenuButton>
           <MenuList color={"black"}>
-          <Link to={"/equipmentRequestSystem"}>
+          <Link to={"/studentAddRequest"}>
               <MenuItem>
                 <Text>Equipment Request System</Text>
               </MenuItem>
             </Link>
+
+            <Link to={"/equipmentRequestSystem"}>
+              <MenuItem>
+                <Text>Equipment Approval System</Text>
+              </MenuItem>
+            </Link>
+
 
             <Link to={"/researchnews"}>
               <MenuItem>

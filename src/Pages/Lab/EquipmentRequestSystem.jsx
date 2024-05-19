@@ -6,7 +6,7 @@ import {
   Heading,
   Button,
   Input,
-  Select,
+  Select,Grid, GridItem 
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
@@ -64,6 +64,11 @@ const EquipmentRequestSystem = () => {
         <Box w="80%" px={4} mt={10}>
           <Heading as="h2" textAlign="center" mb={8} fontSize="3xl">Equipment Request System</Heading>
           {/* Select student */}
+          {/* <Grid templateColumns='repeat(2, 1fr)' gap={6}>
+  <GridItem w='100%' h='10' bg='blue.900' />
+  <GridItem w='100%' h='10' bg='blue.500' />
+  
+</Grid> */}
           <Box mb={4}>
             <Text mb={2}>Select Student:</Text>
             <Select value={selectedStudent} onChange={(e) => setSelectedStudent(e.target.value)}>

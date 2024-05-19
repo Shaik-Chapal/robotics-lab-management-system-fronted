@@ -27,6 +27,7 @@ import SchedulingModule from './Pages/Communication/SchedulingModule'
 import MessageSystem from './Pages/Communication/MessageSystem'
 import Feedback from './Pages/Communication/Feedback'
 import EquipmentRequestSystem from './Pages/Lab/EquipmentRequestSystem'
+import StudentAddRequest from './Pages/Lab/StudentAddRequest'
 import ResourceApproval from './Pages/Lab/ResourceApproval'
 import ResultSharing from './Pages/Lab/ResultSharing'
 
@@ -65,6 +66,7 @@ function App() {
       <Route path='/equipmentRequestSystem' element={<EquipmentRequestSystem/>} />
       <Route path='/resourceApproval' element={<ResourceApproval/>} />
       <Route path='/resultSharing' element={<ResultSharing/>} />
+      <Route path='/studentAddRequest' element={<StudentAddRequest/>} />
       
      </Routes>
     </>
