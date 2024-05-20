@@ -30,6 +30,7 @@ import EquipmentRequestSystem from './Pages/Lab/EquipmentRequestSystem'
 import StudentAddRequest from './Pages/Lab/StudentAddRequest'
 import ResourceApproval from './Pages/Lab/ResourceApproval'
 import ResultSharing from './Pages/Lab/ResultSharing'
+import Resultlist from './Pages/Lab/Resultlist'
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
       <Route path='/resourceApproval' element={<ResourceApproval/>} />
       <Route path='/resultSharing' element={<ResultSharing/>} />
       <Route path='/studentAddRequest' element={<StudentAddRequest/>} />
+      <Route path='/resultlist' element={<Resultlist/>} />
       
      </Routes>
     </>

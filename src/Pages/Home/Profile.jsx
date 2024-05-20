@@ -6,7 +6,19 @@ import {
   HStack,
   VStack,
   Spinner,
+  IconButton,
+  useToast,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
 } from "@chakra-ui/react";
+import { EditIcon, DeleteIcon, ViewIcon } from "@chakra-ui/icons";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems";
@@ -15,6 +27,9 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [researchResults, setResearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedResult, setSelectedResult] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -55,6 +70,88 @@ const Profile = () => {
     }
   }, []);
 
+  const handleView = (result) => {
+    setSelectedResult(result);
+    onOpen();
+  };
+
+  const handleEdit = async (id, updatedData) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/ResearchResult/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+      if (response.ok) {
+        const updatedResult = await response.json();
+        setResearchResults((prevResults) =>
+          prevResults.map((result) =>
+            result.id === id ? updatedResult : result
+          )
+        );
+        toast({
+          title: "Updated",
+          description: `Successfully updated research result with ID: ${id}`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: `Failed to update research result with ID: ${id}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: `Failed to update research result with ID: ${id}`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/ResearchResult/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        setResearchResults(researchResults.filter((result) => result.id !== id));
+        toast({
+          title: "Deleted",
+          description: `Successfully deleted research result with ID: ${id}`,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: `Failed to delete research result with ID: ${id}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: `Failed to delete research result with ID: ${id}`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Box>
       <Header />
@@ -67,6 +164,7 @@ const Profile = () => {
             p={5}
             borderWidth="1px"
             borderRadius="lg"
+            bg="teal.50"
           >
             <Text fontWeight={400} fontSize={"30px"} mb={0} textAlign="center">
               Profile
@@ -84,6 +182,7 @@ const Profile = () => {
               p={5}
               borderWidth="1px"
               borderRadius="lg"
+              bg="teal.100"
             >
               <Text fontSize="lg" fontWeight="bold" mt={0}>
                 {userData.firstName} {userData.lastName}
@@ -114,46 +213,113 @@ const Profile = () => {
         </Flex>
       )}
       <Flex justify="center">
-        <Box w="100%" px={4}>
+        <Box w="100%" px={1}>
           <Box
-            maxW="md"
+            w="95%"
             mx="auto"
             m={10}
             p={5}
             borderWidth="1px"
             borderRadius="lg"
+            bg="gray.50"
           >
             <Text fontWeight={400} fontSize={"30px"} mb={0} textAlign="center">
               My Research Results
             </Text>
             {loading ? (
-              <Spinner />
+              <Flex justify="center" mt={4}>
+                <Spinner />
+              </Flex>
             ) : (
-              <VStack spacing={4} mt={4}>
+              <HStack spacing={4} mt={4} overflowX="auto">
                 {researchResults.map((result) => (
                   <Box
                     key={result.id}
                     p={4}
-                    w="100%"
                     borderWidth="1px"
                     borderRadius="lg"
+                    bg="white"
+                    boxShadow="md"
+                    minWidth="300px"
                   >
-                    <Text fontSize="lg" fontWeight="bold">
+                    <Text fontSize="lg" fontWeight="bold" color="teal.600">
                       {result.topic}
+                    </Text>
+                    <Text fontSize="md" color="gray.600">
+                      {result.introduction}
+                    </Text>
+                    <Text fontSize="md" color="gray.600">
+                      {result.abstract}
+                    </Text>
+                    <Text fontSize="md" color="gray.600">
+                      {result.methodology}
+                    </Text>
+                    <Text fontSize="md" color="gray.600">
+                      {result.description}
                     </Text>
                     <Text fontSize="md" color="gray.600">
                       {result.result}
                     </Text>
                     <Text fontSize="md" color="gray.600">
-                      {result.description}
+                      {result.conclusion}
                     </Text>
+                    <HStack mt={2} justify="center">
+                      <IconButton
+                        icon={<ViewIcon />}
+                        onClick={() => handleView(result)}
+                        aria-label="View"
+                        colorScheme="blue"
+                      />
+                      <IconButton
+                        icon={<EditIcon />}
+                        onClick={() => handleEdit(result.id, {
+                          ...result,
+                          topic: "Updated Topic"
+                        })}
+                        aria-label="Edit"
+                        colorScheme="yellow"
+                      />
+                      <IconButton
+                        icon={<DeleteIcon />}
+                        onClick={() => handleDelete(result.id)}
+                        aria-label="Delete"
+                        colorScheme="red"
+                      />
+                    </HStack>
                   </Box>
                 ))}
-              </VStack>
+              </HStack>
             )}
           </Box>
         </Box>
       </Flex>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Research Result Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedResult && (
+              <VStack spacing={2} align="flex-start">
+                <Text><strong>Topic:</strong> {selectedResult.topic}</Text>
+                <Text><strong>Introduction:</strong> {selectedResult.introduction}</Text>
+                <Text><strong>Abstract:</strong> {selectedResult.abstract}</Text>
+                <Text><strong>Methodology:</strong> {selectedResult.methodology}</Text>
+                <Text><strong>Description:</strong> {selectedResult.description}</Text>
+                <Text><strong>Result:</strong> {selectedResult.result}</Text>
+                <Text><strong>Conclusion:</strong> {selectedResult.conclusion}</Text>
+              </VStack>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       <Footer />
     </Box>
   );
