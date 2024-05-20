@@ -17,6 +17,10 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
+  Input,
+  FormControl,
+  FormLabel,
+  Textarea,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, ViewIcon } from "@chakra-ui/icons";
 import Header from "../../Components/Header";
@@ -29,6 +33,12 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [selectedResult, setSelectedResult] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+  const [editData, setEditData] = useState(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -75,33 +85,44 @@ const Profile = () => {
     onOpen();
   };
 
-  const handleEdit = async (id, updatedData) => {
+  const handleEditClick = (result) => {
+    setEditData(result);
+    onEditOpen();
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/api/ResearchResult/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/ResearchResult/${editData.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify(editData),
       });
       if (response.ok) {
-        const updatedResult = await response.json();
-        setResearchResults((prevResults) =>
-          prevResults.map((result) =>
-            result.id === id ? updatedResult : result
-          )
-        );
         toast({
           title: "Updated",
-          description: `Successfully updated research result with ID: ${id}`,
+          description: `Successfully updated research`,
           status: "success",
           duration: 5000,
           isClosable: true,
         });
-      } else {
+        onEditClose();
+        window.location.reload(); // Refresh the page
+      }
+       else {
         toast({
           title: "Error",
-          description: `Failed to update research result with ID: ${id}`,
+          description: `Failed to update research result`,
           status: "error",
           duration: 5000,
           isClosable: true,
@@ -110,7 +131,7 @@ const Profile = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: `Failed to update research result with ID: ${id}`,
+        description: `Failed to update research result with ID: ${editData.id}`,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -272,10 +293,7 @@ const Profile = () => {
                       />
                       <IconButton
                         icon={<EditIcon />}
-                        onClick={() => handleEdit(result.id, {
-                          ...result,
-                          topic: "Updated Topic"
-                        })}
+                        onClick={() => handleEditClick(result)}
                         aria-label="Edit"
                         colorScheme="yellow"
                       />
@@ -294,6 +312,7 @@ const Profile = () => {
         </Box>
       </Flex>
 
+      {/* View Modal */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -302,19 +321,114 @@ const Profile = () => {
           <ModalBody>
             {selectedResult && (
               <VStack spacing={2} align="flex-start">
-                <Text><strong>Topic:</strong> {selectedResult.topic}</Text>
-                <Text><strong>Introduction:</strong> {selectedResult.introduction}</Text>
-                <Text><strong>Abstract:</strong> {selectedResult.abstract}</Text>
-                <Text><strong>Methodology:</strong> {selectedResult.methodology}</Text>
-                <Text><strong>Description:</strong> {selectedResult.description}</Text>
-                <Text><strong>Result:</strong> {selectedResult.result}</Text>
-                <Text><strong>Conclusion:</strong> {selectedResult.conclusion}</Text>
+                <Text>
+                  <strong>Topic:</strong> {selectedResult.topic}
+                </Text>
+                <Text>
+                  <strong>Introduction:</strong> {selectedResult.introduction}
+                </Text>
+                <Text>
+                  <strong>Abstract:</strong> {selectedResult.abstract}
+                </Text>
+                <Text>
+                  <strong>Methodology:</strong> {selectedResult.methodology}
+                </Text>
+                <Text>
+                  <strong>Description:</strong> {selectedResult.description}
+                </Text>
+                <Text>
+                  <strong>Result:</strong> {selectedResult.result}
+                </Text>
+                <Text>
+                  <strong>Conclusion:</strong> {selectedResult.conclusion}
+                </Text>
               </VStack>
             )}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Edit Modal */}
+      <Modal isOpen={isEditOpen} onClose={onEditClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edit Research Result</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {editData && (
+              <form onSubmit={handleEditSubmit}>
+                <VStack spacing={4}>
+                  <FormControl>
+                    <FormLabel>Topic</FormLabel>
+                    <Input
+                      name="topic"
+                      value={editData.topic}
+                      onChange={handleEditChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Introduction</FormLabel>
+                    <Textarea
+                      name="introduction"
+                      value={editData.introduction}
+                      onChange={handleEditChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Abstract</FormLabel>
+                    <Textarea
+                      name="abstract"
+                      value={editData.abstract}
+                      onChange={handleEditChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Methodology</FormLabel>
+                    <Textarea
+                      name="methodology"
+                      value={editData.methodology}
+                      onChange={handleEditChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Description</FormLabel>
+                    <Textarea
+                      name="description"
+                      value={editData.description}
+                      onChange={handleEditChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Result</FormLabel>
+                    <Textarea
+                      name="result"
+                      value={editData.result}
+                      onChange={handleEditChange}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Conclusion</FormLabel>
+                    <Textarea
+                      name="conclusion"
+                      value={editData.conclusion}
+                      onChange={handleEditChange}
+                    />
+                  </FormControl>
+                </VStack>
+                <Button mt={4} colorScheme="blue" type="submit">
+                  Save
+                </Button>
+              </form>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={onEditClose}>
+              Cancel
             </Button>
           </ModalFooter>
         </ModalContent>
