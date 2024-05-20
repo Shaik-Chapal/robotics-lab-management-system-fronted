@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
+import { Link } from "react-router-dom";
 
 import { BASE_URL } from "../../Redux/actionItems";
 
@@ -122,6 +123,7 @@ const ResultSharing = () => {
             />
           </Box>
           {/* Upload button */}
+          <Flex justify="space-between" alignItems="center">
           <Button
             colorScheme="green"
             onClick={handleUpload}
@@ -129,8 +131,17 @@ const ResultSharing = () => {
           >
             Upload
           </Button>
+                <Link to="/resultlist">
+                  <Button colorScheme="green" mt={4}>
+                    List
+                  </Button>
+                </Link>
+              </Flex>
+          
+         
         </Box>
       </Flex>
+     
       <Footer />
     </Box>
   );
