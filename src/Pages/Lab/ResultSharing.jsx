@@ -7,18 +7,82 @@ import {
   Button,
   Input,
   Textarea,
+  useToast
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
+
+import { BASE_URL } from "../../Redux/actionItems";
 
 const ResultSharing = () => {
   const [topic, setTopic] = useState("");
   const [result, setResult] = useState("");
   const [description, setDescription] = useState("");
+  const toast = useToast();
 
-  const handleUpload = () => {
-    // Implement upload logic here
-    console.log(`Uploaded: Topic - ${topic}, Result - ${result}, Description - ${description}`);
+  const handleUpload = async () => {
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      toast({
+        title: "Error",
+        description: "User ID is missing. Please log in again.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    const requestBody = {
+      topic,
+      result,
+      description,
+      userId
+    };
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/ResearchResult`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast({
+          title: "Success",
+          description: "Research result uploaded successfully.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+
+        // Clear the form fields
+        setTopic("");
+        setResult("");
+        setDescription("");
+      } else {
+        const errorData = await response.json();
+        toast({
+          title: "Error",
+          description: errorData.title || "Failed to upload research result.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message || "An error occurred while uploading research result.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
