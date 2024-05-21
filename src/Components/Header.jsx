@@ -19,10 +19,10 @@ import {
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout ,BASE_URL} from "../Redux/actionItems";
+import { LOGOUT, BASE_URL } from "../Redux/actionItems";
 
 const Header = () => {
-  const state = useSelector((state) => state.authentication);
+  const state = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [universityData, setUniversityData] = useState(null);
@@ -33,7 +33,7 @@ const Header = () => {
 
   const fetchUniversityData = async () => {
     try {
-      const response =  await fetch(`${BASE_URL}/api/v1/University`);
+      const response = await fetch(`${BASE_URL}/api/v1/University`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -44,36 +44,11 @@ const Header = () => {
     }
   };
 
-  const Logout = () => {
-    return (
-      <Text
-        onClick={handleLogout}
-        _hover={{
-          textDecoration: "underline solid rgb(0,96,169)",
-          cursor: "pointer",
-        }}
-      >
-        Logout
-      </Text>
-    );
-  };
-
-  function handleLogout() {
-   
-    localStorage.removeItem("credentials");
-    dispatch({ type: logout });
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    dispatch({ type: LOGOUT });
     window.location.reload();
-    
-  }
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsOpen(false);
   };
 
   return (
@@ -90,7 +65,6 @@ const Header = () => {
       >
         Robotics Lab Management System
       </Text>
-     
 
       <SimpleGrid
         bg={"#EEEEEE"}
@@ -98,36 +72,37 @@ const Header = () => {
         p={5}
         gap={7}
         alignItems={"center"}
-      
       >
         <Flex
           justifyContent={"center"}
           display={["none", "none", "flex", "flex"]}
           cursor={"pointer"}
         >
-        
         </Flex>
         <Flex
           justifyContent={"center"}
           display={["none", "none", "flex", "flex"]}
           cursor={"pointer"}
         >
-        
         </Flex>
-
-       
-       
         <Flex
           gap={6}
-         
           justifyContent={"center"}
           color={"#0060A9"}
           fontSize={"16px"}
           fontWeight={400}
           display={["none", "none", "flex", "flex"]}
         >
-          {state.isAuth ? (
-            <Logout />
+          {state.isAuthenticated ? (
+            <Text
+              onClick={handleLogout}
+              _hover={{
+                textDecoration: "underline solid rgb(0,96,169)",
+                cursor: "pointer",
+              }}
+            >
+              Logout
+            </Text>
           ) : (
             <Link to={"/login"}>
               <Text

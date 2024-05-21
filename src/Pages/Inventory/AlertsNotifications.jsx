@@ -4,7 +4,7 @@ import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import axios from "axios";
 
-import { BASE_URL } from "../../Redux/actionItems"; // Ensure this contains the base URL of your API
+import { BASE_URL } from "../../Redux/actionItems";
 
 const AlertsNotifications = () => {
   const [inventory, setInventory] = useState([]);

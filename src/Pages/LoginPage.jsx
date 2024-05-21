@@ -13,20 +13,20 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { Authentication ,BASE_URL} from "../Redux/actionItems";
+
 import { Routes, Route } from "react-router-dom";
+import { LOGIN_SUCCESS, BASE_URL } from "../Redux/actionItems";
 
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const state = useSelector((state) => state.authentication);
+  const state = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   
 
 
   const toast = useToast();
-
   const handleLogin = async () => {
     try {
       const response = await fetch(`${BASE_URL}/Login`, {
@@ -48,7 +48,7 @@ const LoginPage = () => {
           duration: 5000,
           isClosable: true,
         });
-        dispatch({ type: Authentication });
+        dispatch({ type: LOGIN_SUCCESS, payload: { token: data.token, userId } });
       } else {
         toast({
           title: "Login Failed",
@@ -69,7 +69,8 @@ const LoginPage = () => {
       });
     }
   };
-  if (state.isAuth) {
+
+  if (state.isAuthenticated) {
     return <Navigate to={"/"} />;
   }
 

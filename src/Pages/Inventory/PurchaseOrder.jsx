@@ -15,6 +15,8 @@ import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import axios from 'axios';
 import { BASE_URL } from "../../Redux/actionItems";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 const PurchaseOrder = () => {
   const toast = useToast();
@@ -225,7 +227,10 @@ const PurchaseOrder = () => {
     setModelNumber("");
     setCreateDate("");
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
       <Header />

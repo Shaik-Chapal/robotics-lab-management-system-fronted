@@ -10,7 +10,8 @@ import axios from "axios";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems"; // Ensure this contains the base URL of your API
-
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 const InventoryControl = () => {
   const [groups, setGroups] = useState([]);
 
@@ -29,7 +30,10 @@ const InventoryControl = () => {
 
   // Define an array of colors for different background colors
   const colors = ["orange.200", "blue.200", "green.200", "purple.200", "red.200"];
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box bgColor="lightblue">
       <Header />

@@ -1,19 +1,18 @@
-import { Authentication, logout } from "../actionItems";
+import { LOGIN_SUCCESS, LOGOUT } from "../actionItems";
 
-let isUser = JSON.parse(localStorage.getItem("credentials"));
-
-let isLoginPresent = isUser ? true : false;
+// Check if user credentials are present in localStorage
+const isUserLoggedIn = !!localStorage.getItem("token");
 
 const initialState = {
-  isAuth: isLoginPresent,
+  isAuth: isUserLoggedIn,
 };
 
 export const privateRouteReducer = (state = initialState, { type }) => {
   switch (type) {
-    case Authentication:
+    case LOGIN_SUCCESS:
       return { isAuth: true };
-    case logout:
-      return state;
+    case LOGOUT:
+      return { isAuth: false };
     default:
       return state;
   }

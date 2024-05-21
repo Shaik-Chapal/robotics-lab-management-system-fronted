@@ -15,6 +15,8 @@ import Footer from "../../Components/Footer";
 import axios from 'axios';
 import { BASE_URL } from "../../Redux/actionItems";
 import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 const LabInstrumentItemPage = () => {
   // State for form input values
@@ -79,7 +81,10 @@ const LabInstrumentItemPage = () => {
     setSelectedSupplier("");
     setSelectedGroup("");
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box bgColor="lightblue">
       <Header />
