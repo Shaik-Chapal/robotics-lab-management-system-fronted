@@ -59,9 +59,11 @@ const Header = () => {
   };
 
   function handleLogout() {
+   
     localStorage.removeItem("credentials");
     dispatch({ type: logout });
     window.location.reload();
+    
   }
 
   const [isOpen, setIsOpen] = useState(false);
@@ -88,8 +90,8 @@ const Header = () => {
       >
         Robotics Lab Management System
       </Text>
+     
 
-    
       <SimpleGrid
         bg={"#EEEEEE"}
         gridTemplateColumns={["1fr", "1fr", "0.4fr 2fr 1fr", "0.4fr 2fr 1fr"]}
@@ -337,11 +339,11 @@ const Header = () => {
              Communication and Collaboration 
           </MenuButton>
           <MenuList color={"black"}>
-          <Link to={"/schedulingModule"}>
+          {/* <Link to={"/schedulingModule"}>
               <MenuItem>
                 <Text>Scheduling Module</Text>
               </MenuItem>
-            </Link>
+            </Link> */}
 
             <Link to={"/messageSystem"}>
               <MenuItem>

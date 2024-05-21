@@ -11,8 +11,10 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-import { Link } from "react-router-dom";
+
 import { BASE_URL } from "../../Redux/actionItems";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 const ResultSharing = () => {
   const [topic, setTopic] = useState("");
@@ -95,6 +97,11 @@ const ResultSharing = () => {
       });
     }
   };
+
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Box bgColor="white">

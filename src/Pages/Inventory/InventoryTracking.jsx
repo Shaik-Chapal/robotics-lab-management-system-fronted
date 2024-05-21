@@ -1,49 +1,40 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Heading,
-  Button,
-  Input,
-  Select,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Heading, Button, Input, Select } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
+import axios from "axios";
+
+import { BASE_URL } from "../../Redux/actionItems"; // Ensure this contains the base URL of your API
 
 const InventoryTracking = () => {
-
-  const [inventory, setInventory] = useState([
-    { id: 1, name: "Microscope", quantity: 10, description: "Used to observe very small objects." },
-    { id: 2, name: "Test Tube", quantity: 5, description: "Holds and mixes liquid chemicals." },
-    { id: 3, name: "Watch Glass", quantity: 8, description: "Stores solids, evaporates liquids, heats small amounts of substances." },
-    { id: 4, name: "Crucible", quantity: 15, description: "Heats substances at high temperatures." },
-    { id: 5, name: "Volumetric Flask", quantity: 3, description: "Holds a specific volume of liquid for accurate measurements." },
-    { id: 6, name: "Beaker", quantity: 7, description: "Heats, mixes, and stores liquids." },
-    { id: 7, name: "Bunsen Burner", quantity: 12, description: "Provides a heat source for experiments." },
-    { id: 8, name: "Spatula", quantity: 6, description: "Scoops and transfers solid chemicals." },
-    { id: 9, name: "Magnifying Glass", quantity: 9, description: "Enlarges objects for closer observation." },
-    { id: 10, name: "Spring Balance", quantity: 2, description: "Measures the weight of objects." },
-  ]);
-
-  // State for search query
+  const [inventory, setInventory] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // State for sorting
   const [sortOption, setSortOption] = useState("name");
-
-  // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/EquipmentLogs/equipment-summary`);
+        setInventory(response.data);
+      } catch (error) {
+        console.error("Error fetching inventory data:", error);
+      }
+    };
+
+    fetchInventory();
+  }, []);
+
+  // The rest of the component code remains the same
   // Filtered and sorted inventory based on search query and sort option
   const filteredInventory = inventory.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    item.equipmentName.toLowerCase().includes(searchQuery.toLowerCase())
   ).sort((a, b) => {
     if (sortOption === "name") {
-      return a.name.localeCompare(b.name);
+      return a.equipmentName.localeCompare(b.equipmentName);
     } else {
-      return a.quantity - b.quantity;
+      return a.equipmentToTal - b.equipmentToTal;
     }
   });
 
@@ -66,7 +57,6 @@ const InventoryTracking = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   return (
     <Box bgColor="lightblue">
       <Header />
@@ -90,7 +80,7 @@ const InventoryTracking = () => {
           </Box>
           {currentItems.map((item) => (
             <Box
-              key={item.id}
+              key={item.equipmentID}
               p={4}
               borderWidth="1px"
               borderRadius="lg"
@@ -100,8 +90,12 @@ const InventoryTracking = () => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text fontSize="lg">{item.name}</Text>
-              <Text fontSize="lg">Quantity: {item.quantity}</Text>
+              <Text fontSize="lg">{item.equipmentName}</Text>
+              <Text fontSize="lg">Quantity: {item.equipmentToTal}</Text>
+              <Text fontSize="lg">Booked: {item.bookedCount}</Text>
+              <Text fontSize="lg">Used: {item.usedCount}</Text>
+              <Text fontSize="lg">Returned: {item.returnedCount}</Text>
+              <Text fontSize="lg">Damaged: {item.damagedCount}</Text>
             </Box>
           ))}
           {/* Pagination */}

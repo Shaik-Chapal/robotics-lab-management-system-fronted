@@ -103,7 +103,7 @@ const LabInstrumentItemPage = () => {
               onChange={(e) => setSelectedGroup(e.target.value)}
             >
               {groups.map(group => (
-                <option key={group.id} value={group.id}>{group.name}</option>
+                <option key={group.name} value={group.name}>{group.name}</option>
               ))}
             </Select>
           </FormControl>
