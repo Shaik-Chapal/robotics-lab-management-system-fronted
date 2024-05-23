@@ -113,20 +113,22 @@ const MessageSystem = () => {
       userId: userId,
       toUserId: selectedTeacher,
       message: message,
+      date: new Date().toISOString() // Adding the current date and time
     };
 
     axios
       .post(`${BASE_URL}/api/Chats/SendMessage`, newMessage)
       .then((response) => {
+        // Assuming the response data is the new message object returned from the server
         setMessages((prevMessages) => [...prevMessages, response.data]);
-        setMessage(""); // Clear the message input after sending
       })
       .catch((error) => {
-        
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-        setMessage(""); // Clear the message input after sending
-        
         console.error("There was an error sending the message!", error);
+        // Optionally, you can still add the message locally even if the API call fails
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      })
+      .finally(() => {
+        setMessage(""); // Clear the message input after sending, regardless of success or failure
       });
   };
 
@@ -219,6 +221,8 @@ const MessageSystem = () => {
                 </Flex>
               </>
             )}
+         
+
           </Box>
         </Flex>
       </Flex>
