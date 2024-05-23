@@ -20,6 +20,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { BASE_URL } from "../../Redux/actionItems";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 const MessageSystem = () => {
   const [teachers, setTeachers] = useState([]);
@@ -28,46 +29,80 @@ const MessageSystem = () => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState({});
   const userId = localStorage.getItem("userId");
+  const [connection, setConnection] = useState(null);
+
+  const state = useSelector((state) => state.authentication);
+
   useEffect(() => {
-    // Fetch teachers
+    if (!state.isAuth) {
+      return <Navigate to="/login" />;
+    }
+
+    // Fetch users (teachers)
     axios
-      .get("https://localhost:7161/api/User/AllUser")
+      .get(`${BASE_URL}/api/Chats/GetUsers`)
       .then((response) => {
-        setTeachers(response.data);
+        // Filter out the current user
+        const otherUsers = response.data.filter(user => user.id !== userId);
+        setTeachers(otherUsers);
+        // Set users object for quick lookup by id
+        const usersObj = response.data.reduce((acc, user) => {
+          acc[user.id] = user;
+          return acc;
+        }, {});
+        setUsers(usersObj);
       })
       .catch((error) => {
         console.error("There was an error fetching the teachers!", error);
       });
 
-    // Fetch all messages (both sent and received)
-    const fetchMessages = async () => {
-      try {
-        const [received, sent] = await Promise.all([
-          axios.get(`https://localhost:7161/api/Messages/received/${userId}`),
-          axios.get(`https://localhost:7161/api/Messages/sent/${userId}`)
-        ]);
+    // Set up SignalR connection
+    const connect = new HubConnectionBuilder()
+      .withUrl(`${BASE_URL}/chat-hub`)
+      .configureLogging(LogLevel.Information)
+      .build();
 
-        const allMessages = [...received.data, ...sent.data];
-        const userIds = [
-          ...new Set(allMessages.map((msg) => msg.senderId).concat(allMessages.map((msg) => msg.receiverId))),
-        ];
-        const userDetailPromises = userIds.map((id) => axios.get(`https://localhost:7161/api/User/${id}`));
-        const userDetails = await Promise.all(userDetailPromises);
+    connect.start()
+      .then(() => {
+        console.log("Connected to the chat hub");
+        setConnection(connect);
+        connect.invoke("Connect", userId);
 
-        const users = userDetails.reduce((acc, res) => {
-          acc[res.data.id] = res.data;
-          return acc;
-        }, {});
+        connect.on("Messages", (newMessage) => {
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        });
 
-        setUsers(users);
-        setMessages(allMessages);
-      } catch (error) {
-        console.error("There was an error fetching the messages or user details!", error);
+        connect.on("Users", (user) => {
+          setUsers((prevUsers) => ({ ...prevUsers, [user.id]: user }));
+        });
+      })
+      .catch((error) => console.error("Error connecting to the chat hub", error));
+
+    return () => {
+      if (connect) {
+        connect.stop();
       }
     };
+  }, [userId, state.isAuth]);
 
-    fetchMessages();
-  }, [userId]);
+  useEffect(() => {
+    if (selectedTeacher) {
+      // Fetch chats with selected teacher
+      axios
+        .get(`${BASE_URL}/api/Chats/GetChats`, {
+          params: {
+            userId: userId,
+            toUserId: selectedTeacher,
+          },
+        })
+        .then((response) => {
+          setMessages(response.data);
+        })
+        .catch((error) => {
+          console.error("There was an error fetching the messages!", error);
+        });
+    }
+  }, [selectedTeacher, userId]);
 
   const handleMessageSend = () => {
     if (!selectedTeacher || !message) {
@@ -75,13 +110,13 @@ const MessageSystem = () => {
     }
 
     const newMessage = {
-      senderId: userId,
-      receiverId: selectedTeacher,
-      content: message,
+      userId: userId,
+      toUserId: selectedTeacher,
+      message: message,
     };
 
     axios
-      .post("https://localhost:7161/api/Messages/send", newMessage)
+      .post(`${BASE_URL}/api/Chats/SendMessage`, newMessage)
       .then((response) => {
         setMessages((prevMessages) => [...prevMessages, response.data]);
         setMessage(""); // Clear the message input after sending
@@ -91,13 +126,8 @@ const MessageSystem = () => {
       });
   };
 
-  const state = useSelector((state) => state.authentication);
-  if (!state.isAuth) {
-    return <Navigate to="/login" />;
-  }
-
   const filteredMessages = messages.filter(
-    (msg) => msg.senderId === selectedTeacher || msg.receiverId === selectedTeacher
+    (msg) => msg.userId === selectedTeacher || msg.toUserId === selectedTeacher
   );
 
   return (
@@ -122,8 +152,8 @@ const MessageSystem = () => {
                   onClick={() => setSelectedTeacher(teacher.id)}
                 >
                   <HStack>
-                    <Avatar name={teacher.userName} />
-                    <Text>{teacher.userName}</Text>
+                    <Avatar name={`${teacher.firstName} ${teacher.lastName}`} />
+                    <Text>{`${teacher.firstName} ${teacher.lastName}`}</Text>
                   </HStack>
                 </Box>
               ))}
@@ -136,15 +166,14 @@ const MessageSystem = () => {
               <>
                 <Flex mb={4} justify="space-between" align="center">
                   <HStack>
-                    <Avatar name={users[selectedTeacher]?.userName} />
+                    <Avatar name={`${users[selectedTeacher]?.firstName} ${users[selectedTeacher]?.lastName}`} />
                     <Box>
-                      <Heading as="h3" size="lg">{users[selectedTeacher]?.userName}</Heading>
+                      <Heading as="h3" size="lg">{`${users[selectedTeacher]?.firstName} ${users[selectedTeacher]?.lastName}`}</Heading>
                       <Text fontSize="sm">Last seen at {new Date().toLocaleTimeString()}</Text>
                     </Box>
                   </HStack>
                   <HStack spacing={2}>
                     <IconButton icon={<PhoneIcon />} />
-                    =
                     <IconButton icon={<InfoIcon />} />
                   </HStack>
                 </Flex>
@@ -155,12 +184,12 @@ const MessageSystem = () => {
                         key={msg.id}
                         p={3}
                         borderRadius="md"
-                        bg={msg.senderId === userId ? "blue.100" : "green.100"}
-                        alignSelf={msg.senderId === userId ? "flex-end" : "flex-start"}
+                        bg={msg.userId === userId ? "blue.100" : "green.100"}
+                        alignSelf={msg.userId === userId ? "flex-end" : "flex-start"}
                       >
-                        <Text>{msg.content}</Text>
+                        <Text>{msg.message}</Text>
                         <Text fontSize="xs" color="gray.500">
-                          {new Date(msg.sentAt).toLocaleString()}
+                          {new Date(msg.date).toLocaleString()}
                         </Text>
                       </Box>
                     ))}
