@@ -122,6 +122,10 @@ const MessageSystem = () => {
         setMessage(""); // Clear the message input after sending
       })
       .catch((error) => {
+        
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        setMessage(""); // Clear the message input after sending
+        
         console.error("There was an error sending the message!", error);
       });
   };
