@@ -178,6 +178,13 @@ const Header = () => {
               </MenuItem>
             </Link>
 
+            <Link to={"/teacher"}>
+              <MenuItem>
+                <Text>Teacher</Text>
+              </MenuItem>
+            </Link>
+
+
             <Link to={"/supplier"}>
               <MenuItem>
                 <Text>Supplier</Text>

@@ -8,6 +8,7 @@ import FeaturedContent from './Pages/Home/FeaturedContent'
 import LoginPage from './Pages/LoginPage'
 import SignupPage from './Pages/SignupPage'
 import StudentPage from './Pages/User/StudentPage'
+import Teacher from './Pages/User/Teacher'
 import Holiday from './Pages/User/Holiday'
 import Supplier from './Pages/User/Supplier'
 import StudentList from './Pages/User/StudentList'
@@ -43,6 +44,7 @@ function App() {
       <Route path='/signup' element={<SignupPage/>}/>
       <Route path='/student' element={<StudentPage/>} />
       <Route path='/studentlist' element={<StudentList/>} />
+      <Route path='/teacher' element={<Teacher/>} />
       <Route path='/staff' element={<StaffPage/>} />
       <Route path='/university' element={<University/>} />
       <Route path='/stafflist' element={<StaffList/>} />
