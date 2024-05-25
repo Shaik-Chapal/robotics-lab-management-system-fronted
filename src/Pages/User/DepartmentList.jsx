@@ -3,6 +3,8 @@ import { Box, Text, Button, Stack } from "@chakra-ui/react";
 import { BASE_URL } from "../../Redux/actionItems";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 const DepartmentList = () => {
   const [departments, setDepartments] = useState([]);
@@ -32,7 +34,10 @@ const DepartmentList = () => {
   const handleDelete = (id) => {
     console.log("Delete department with ID:", id);
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
         <Header />

@@ -261,14 +261,6 @@ const PurchaseOrder = () => {
             />
           </FormControl>
           <FormControl mb={4}>
-            <FormLabel>Expiration Date</FormLabel>
-            <Input 
-              type="date" 
-              value={expirationDate} 
-              onChange={(e) => setExpirationDate(e.target.value)} 
-            />
-          </FormControl>
-          <FormControl mb={4}>
             <FormLabel>Price</FormLabel>
             <Input 
               type="number" 
@@ -276,6 +268,23 @@ const PurchaseOrder = () => {
               onChange={(e) => setPrice(e.target.value)} 
             />
           </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Create Date</FormLabel>
+            <Input 
+              type="date" 
+              value={createDate} 
+              onChange={(e) => setCreateDate(e.target.value)} 
+            />
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Expiration Date</FormLabel>
+            <Input 
+              type="date" 
+              value={expirationDate} 
+              onChange={(e) => setExpirationDate(e.target.value)} 
+            />
+          </FormControl>
+         
           <FormControl mb={4}>
             <FormLabel>Company</FormLabel>
             <Select
@@ -312,14 +321,7 @@ const PurchaseOrder = () => {
               onChange={(e) => setModelNumber(e.target.value)} 
             />
           </FormControl>
-          <FormControl mb={4}>
-            <FormLabel>Create Date</FormLabel>
-            <Input 
-              type="date" 
-              value={createDate} 
-              onChange={(e) => setCreateDate(e.target.value)} 
-            />
-          </FormControl>
+          
           <Button colorScheme="green" onClick={handleSubmit}>Add Purchase Order</Button>
         </Box>
 

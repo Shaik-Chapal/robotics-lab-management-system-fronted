@@ -10,7 +10,8 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 const EquipmentRequestSystem = () => {
   
   const [students, setStudents] = useState([

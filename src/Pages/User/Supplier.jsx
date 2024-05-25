@@ -12,7 +12,9 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+import { BASE_URL } from "../../Redux/actionItems";
 
 const Supplier = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -25,7 +27,7 @@ const Supplier = () => {
 
   const fetchSuppliers = async () => {
     try {
-      const response = await fetch("https://localhost:7161/api/Suppliers");
+      const response = await fetch(`${BASE_URL}/api/Suppliers`);
       if (response.ok) {
         const data = await response.json();
         setSuppliers(data);
@@ -39,7 +41,7 @@ const Supplier = () => {
 
   const handleAddSupplier = async () => {
     try {
-      const response = await fetch("https://localhost:7161/api/Suppliers", {
+      const response = await fetch(`${BASE_URL}/api/Suppliers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +63,10 @@ const Supplier = () => {
       console.error("Error:", error);
     }
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box bgColor="lightblue">
       <Header />

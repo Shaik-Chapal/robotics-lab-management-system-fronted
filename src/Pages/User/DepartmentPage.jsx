@@ -11,8 +11,10 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-import { Link } from "react-router-dom";
+
 import { BASE_URL } from "../../Redux/actionItems"; // Import BASE_URL
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 const DepartmentPage = () => {
   const [formData, setFormData] = useState({
@@ -49,7 +51,10 @@ const DepartmentPage = () => {
       console.error("Error:", error);
     }
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
       <Header />

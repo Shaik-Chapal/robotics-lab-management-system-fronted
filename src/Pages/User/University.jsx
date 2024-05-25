@@ -4,7 +4,8 @@ import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems";
 import UpdateModal from "./UpdateModal";
-
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 const University = () => {
   const [universityData, setUniversityData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +31,10 @@ const University = () => {
   const handleUpdateData = () => {
     fetchUniversityData();
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
       <Header />

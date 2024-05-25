@@ -5,7 +5,8 @@ import Footer from "../../Components/Footer";
 import axios from "axios";
 
 import { BASE_URL } from "../../Redux/actionItems"; // Ensure this contains the base URL of your API
-
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 const InventoryTracking = () => {
   const [inventory, setInventory] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,6 +58,11 @@ const InventoryTracking = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  } 
   return (
     <Box bgColor="lightblue">
       <Header />
@@ -91,7 +97,7 @@ const InventoryTracking = () => {
               alignItems="center"
             >
               <Text fontSize="lg">{item.equipmentName}</Text>
-              <Text fontSize="lg">Quantity: {item.equipmentToTal}</Text>
+              <Text fontSize="lg">Quantity: {item.equipmentTotal}</Text>
               <Text fontSize="lg">Booked: {item.bookedCount}</Text>
               <Text fontSize="lg">Used: {item.usedCount}</Text>
               <Text fontSize="lg">Returned: {item.returnedCount}</Text>

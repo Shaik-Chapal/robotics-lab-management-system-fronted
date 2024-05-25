@@ -12,11 +12,11 @@ import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems";
 import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-const StudentList  = () => {
+const TeacherList = () => {
   const [teachers, setTeachers] = useState([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/User/AllStudent`)
+    fetch(`${BASE_URL}/api/User/AllTeacher`)
       .then((response) => response.json())
       .then((data) => setTeachers(data))
       .catch((error) => console.error("Error fetching teachers:", error));
@@ -58,7 +58,7 @@ const StudentList  = () => {
       <Flex justify="center">
         <Box w="80%" px={4}>
           <Box mt={10}>
-            <Heading as="h2" textAlign="center" mb={8} fontSize="3xl">Student List</Heading>
+            <Heading as="h2" textAlign="center" mb={8} fontSize="3xl">Teacher List</Heading>
             {teachers.map((teacher) => (
               <Box 
                 key={teacher.id} 
@@ -102,4 +102,4 @@ const StudentList  = () => {
   );
 };
 
-export default StudentList;
+export default TeacherList;

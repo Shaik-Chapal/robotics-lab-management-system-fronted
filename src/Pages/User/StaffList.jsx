@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -9,29 +9,48 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-import { Link } from "react-router-dom";
+import { BASE_URL } from "../../Redux/actionItems";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+const StaffList  = () => {
+  const [teachers, setTeachers] = useState([]);
 
-const StaffList = () => {
-  // Sample student data
-  const students = [
-    { id: 1, name: "Test Doe", session: "2023" },
-    { id: 2, name: "John Doe", session: "2022" },
-    { id: 3, name: "John Test", session: "2024" },
-    { id: 4, name: "Tomi Doe", session: "2021" },
-  ];
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/User/AllStaff`)
+      .then((response) => response.json())
+      .then((data) => setTeachers(data))
+      .catch((error) => console.error("Error fetching teachers:", error));
+  }, []);
 
-  // Sample function to handle student activation
-  const handleActivate = (studentId) => {
-    // Implement your logic to activate student here
-    console.log(`Activate student with ID: ${studentId}`);
+  const handleActivate = (teacherId) => {
+    fetch(`${BASE_URL}/api/User/ActivateTeacher/${teacherId}`, {
+      method: 'POST'
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Update the teacher's status in the state
+        setTeachers(teachers.map(teacher =>
+          teacher.id === teacherId ? { ...teacher, status: 'active' } : teacher
+        ));
+      })
+      .catch(error => console.error('Error activating teacher:', error));
   };
 
-  // Sample function to handle student deactivation
-  const handleDeactivate = (studentId) => {
-    // Implement your logic to deactivate student here
-    console.log(`Deactivate student with ID: ${studentId}`);
+  const handleDeactivate = (teacherId) => {
+    fetch(`${BASE_URL}/api/User/DeactivateTeacher/${teacherId}`, {
+      method: 'POST'
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Remove the teacher from the list if deactivated
+        setTeachers(teachers.filter(teacher => teacher.id !== teacherId));
+      })
+      .catch(error => console.error('Error deactivating teacher:', error));
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box bgColor="lightblue">
       <Header />
@@ -39,10 +58,10 @@ const StaffList = () => {
       <Flex justify="center">
         <Box w="80%" px={4}>
           <Box mt={10}>
-            <Heading as="h2" textAlign="center" mb={8} fontSize="3xl">Student List</Heading>
-            {students.map((student) => (
+            <Heading as="h2" textAlign="center" mb={8} fontSize="3xl">Staff List</Heading>
+            {teachers.map((teacher) => (
               <Box 
-                key={student.id} 
+                key={teacher.id} 
                 p={4} 
                 borderWidth="1px" 
                 borderRadius="lg" 
@@ -52,14 +71,23 @@ const StaffList = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Text fontSize="lg">Name: {student.name}</Text>
-                <Text>ID: {student.id}</Text>
-                <Text>Session: {student.session}</Text>
+                <Text fontSize="lg">Name: {teacher.userName}</Text>
+                <Text>ID: {teacher.uid}</Text>
+                <Text>Session: {teacher.session}</Text>
+                <Text>Status: {teacher.status}</Text>
                 <Flex>
-                  <Button colorScheme="green" onClick={() => handleActivate(student.id)}>
+                  <Button 
+                    colorScheme="green" 
+                    onClick={() => handleActivate(teacher.id)}
+                    disabled={teacher.status === 'active'}
+                  >
                     Activate
                   </Button>
-                  <Button colorScheme="red" onClick={() => handleDeactivate(student.id)}>
+                  <Button 
+                    colorScheme="red" 
+                    onClick={() => handleDeactivate(teacher.id)}
+                    disabled={teacher.status === 'inactive'}
+                  >
                     Deactivate
                   </Button>
                 </Flex>
@@ -74,4 +102,4 @@ const StaffList = () => {
   );
 };
 
-export default StaffList;
+export default StaffList ;

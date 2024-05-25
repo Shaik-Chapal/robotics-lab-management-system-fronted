@@ -12,6 +12,7 @@ import Teacher from './Pages/User/Teacher'
 import Holiday from './Pages/User/Holiday'
 import Supplier from './Pages/User/Supplier'
 import StudentList from './Pages/User/StudentList'
+import TeacherList from './Pages/User/TeacherList'
 import University from './Pages/User/University'
 import DepartmentPage from './Pages/User/DepartmentPage'
 import DepartmentList from './Pages/User/DepartmentList'
@@ -42,6 +43,7 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<LoginPage/>}/>
       <Route path='/signup' element={<SignupPage/>}/>
+      <Route path='/teacherList' element={<TeacherList/>}/>
       <Route path='/student' element={<StudentPage/>} />
       <Route path='/studentlist' element={<StudentList/>} />
       <Route path='/teacher' element={<Teacher/>} />

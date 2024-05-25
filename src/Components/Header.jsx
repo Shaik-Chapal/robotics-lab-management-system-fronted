@@ -276,18 +276,14 @@ const Header = () => {
               </MenuItem>
             </Link>
 
-            <Link to={"/equipmentRequestSystem"}>
+            {/* <Link to={"/equipmentRequestSystem"}>
               <MenuItem>
                 <Text>Equipment Approval System</Text>
               </MenuItem>
-            </Link>
+            </Link> */}
 
 
-            <Link to={"/researchnews"}>
-              <MenuItem>
-                <Text>Research Project </Text>
-              </MenuItem>
-            </Link>
+           
 
             <Link to={"/resourceApproval"}>
               <MenuItem>
@@ -301,7 +297,11 @@ const Header = () => {
               </MenuItem>
             </Link>
           
-            
+            <Link to={"/researchnews"}>
+              <MenuItem>
+                <Text>Research Project </Text>
+              </MenuItem>
+            </Link>
            
 
             
@@ -346,38 +346,7 @@ const Header = () => {
       
           </MenuList>
         </Menu>
-        <Menu>
-          <MenuButton
-            as={Button}
-            bg={"#0073A6"}
-            color={"white"}
-            textAlign={"center"}
-            _hover={"none"}
-            _active={"none"}
-            fontWeight={700}
-          >
-             Membership
-          </MenuButton>
-          <MenuList color={"black"}>
-          <Link to={"/random"}>
-              <MenuItem>
-                <Text>Scheduling Module</Text>
-              </MenuItem>
-            </Link>
-
-            <Link to={"/baby"}>
-              <MenuItem>
-                <Text>Message System</Text>
-              </MenuItem>
-            </Link>
-
-            <Link to={"/beauty"}>
-              <MenuItem>
-                <Text> Feedback</Text>
-              </MenuItem>
-            </Link>
-          </MenuList>
-        </Menu>
+       
 
       </Flex>
 

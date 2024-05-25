@@ -3,6 +3,8 @@ import { Box, Flex, Text, Heading } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 import { BASE_URL } from "../../Redux/actionItems";
 
@@ -27,7 +29,10 @@ const AlertsNotifications = () => {
   const damagedItems = inventory.filter(item => item.status === "Damaged");
   // Assume borrowed items not returned are those with quantity = 0
   const borrowedItemsNotReturned = inventory.filter(item => item.equipmentToTal === 0);
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box bgColor="lightblue">
       <Header />

@@ -24,7 +24,13 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-import { BASE_URL } from "../../Redux/actionItems"; // Ensure this is set to your base URL
+import { format } from 'date-fns';
+import { BASE_URL } from "../../Redux/actionItems"; 
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+const formatDate = (dateString) => {
+  return format(new Date(dateString), 'dd-MM-yy');
+};
 
 const ResourceApproval = () => {
   const [requests, setRequests] = useState([]);
@@ -103,6 +109,7 @@ const ResourceApproval = () => {
           request.id === id ? { ...request, approval: 1 } : request
         );
         setRequests(updatedRequests);
+        window.location.reload();
         toast({
           title: "Approved",
           description: `Request with ID ${id} approved`,
@@ -140,6 +147,7 @@ const ResourceApproval = () => {
           request.id === id ? { ...request, approval: 0 } : request
         );
         setRequests(updatedRequests);
+        window.location.reload();
         toast({
           title: "Denied",
           description: `Request with ID ${id} denied`,
@@ -170,7 +178,10 @@ const ResourceApproval = () => {
   if (loading) {
     return <Spinner size="xl" />;
   }
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
       <Header />
@@ -181,8 +192,11 @@ const ResourceApproval = () => {
           <Table variant="simple">
             <Thead>
               <Tr>
+              <Th>Date</Th>
                 <Th>Student</Th>
                 <Th>Equipment</Th>
+                <Th>State</Th>
+                <Th>Date Range</Th>
                 <Th>Status</Th>
                 <Th>Action</Th>
               </Tr>
@@ -190,6 +204,7 @@ const ResourceApproval = () => {
             <Tbody>
               {requests.map(request => (
                 <Tr key={request.id}>
+                  <td>{formatDate(request.actionDate)}</td>
                   <Td>
                     <Button variant="link" onClick={() => showModal(request.userId)}>
                       {userData[request.userId]?.firstName} {userData[request.userId]?.lastName}
@@ -204,6 +219,9 @@ const ResourceApproval = () => {
                       ))}
                     </ul>
                   </Td>
+                  <td>{request.action}</td>
+                  <td>{formatDate(request.startDate) + " to "+ formatDate(request.endDate)}</td>
+                  
                   <Td>{request.approval === 1 ? "Approved" : "Pending"}</Td>
                   <Td>
                     <Flex>
@@ -233,7 +251,7 @@ const ResourceApproval = () => {
         </Box>
         
         {/* Equipment with quantity */}
-        <Box flex="1" bg="gray.200" p={4}>
+        <Box flex=".2" bg="gray.200" p={4}>
           <Heading as="h2" mb={4} fontSize="3xl">Equipment</Heading>
           <Table variant="simple">
             <Thead>

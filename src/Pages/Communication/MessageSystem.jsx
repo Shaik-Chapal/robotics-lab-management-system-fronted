@@ -135,7 +135,9 @@ const MessageSystem = () => {
   const filteredMessages = messages.filter(
     (msg) => msg.userId === selectedTeacher || msg.toUserId === selectedTeacher
   );
-
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box bgColor="lightblue" minHeight="100vh">
       <Header />

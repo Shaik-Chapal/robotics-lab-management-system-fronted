@@ -12,7 +12,8 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 
 import { BASE_URL } from "../../Redux/actionItems";
@@ -54,7 +55,7 @@ const Teacher = () => {
           email: formData.Email,
           password: formData.Password,
           phone: formData.PhoneNumber,
-          userRole:1 
+          userRole:2 
         })
       });
   
@@ -79,7 +80,8 @@ const Teacher = () => {
         designation: formData.Department,
         Session: formData.Session,
         idNumber: formData.IdNumber,
-        joinDate: formData.JoinDate
+        joinDate: formData.JoinDate,
+        status:"active"
       };
       console.log(newUser)
   
@@ -133,7 +135,10 @@ const Teacher = () => {
       });
     }
   };
-  
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
       <Header />
@@ -142,7 +147,7 @@ const Teacher = () => {
         <Box w="50%" px={4}>
           <Box maxW="auto" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
-              Create Student
+              Create Teacher
             </Text>
             <form onSubmit={handleSubmit}>
               <FormControl id="FirstName" isRequired>
@@ -262,7 +267,7 @@ const Teacher = () => {
                 <Button type="submit" colorScheme="blue" mt={4}>
                   Save
                 </Button>
-                <Link to="/studentlist">
+                <Link to="/teacherList">
                   <Button colorScheme="green" mt={4}>
                     List
                   </Button>

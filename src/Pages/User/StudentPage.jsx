@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
-import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 import { BASE_URL } from "../../Redux/actionItems";
 
@@ -79,7 +79,8 @@ const StudentPage = () => {
         designation: formData.Department,
         Session: formData.Session,
         idNumber: formData.IdNumber,
-        joinDate: formData.JoinDate
+        joinDate: formData.JoinDate,
+        status:"active"
       };
       console.log(newUser)
   
@@ -133,7 +134,10 @@ const StudentPage = () => {
       });
     }
   };
-  
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
       <Header />
