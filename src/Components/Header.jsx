@@ -26,6 +26,8 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const [universityData, setUniversityData] = useState(null);
+  const [claimValue, setClaimValue] = useState(localStorage.getItem("claimValue") || "");
+
 
   useEffect(() => {
     fetchUniversityData();
@@ -157,6 +159,11 @@ const Header = () => {
             User Management 
           </MenuButton>
           <MenuList color={"black"}>
+
+
+          {claimValue !== "Student" && (
+              <>
+
           <Link to={"/university"}>
               <MenuItem>
                 <Text>University</Text>
@@ -190,7 +197,8 @@ const Header = () => {
                 <Text>Supplier</Text>
               </MenuItem>
             </Link>
-
+            </>
+            )}
             <Link to={"/holiday"}>
               <MenuItem>
                 <Text>Holiday</Text>
@@ -199,6 +207,9 @@ const Header = () => {
       
           </MenuList>
         </Menu>
+
+        {claimValue !== "Student" && (
+              <>
         <Menu>
           <MenuButton
             as={Button}
@@ -257,6 +268,9 @@ const Header = () => {
       
           </MenuList>
         </Menu>
+        </>
+            )}
+
         <Menu>
           <MenuButton
             as={Button}
@@ -282,7 +296,8 @@ const Header = () => {
               </MenuItem>
             </Link> */}
 
-
+{claimValue !== "Student" && (
+              <>
            
 
             <Link to={"/resourceApproval"}>
@@ -290,6 +305,8 @@ const Header = () => {
                 <Text>Resource Allocation</Text>
               </MenuItem>
             </Link>
+            </>
+            )}
 
             <Link to={"/resultSharing"}>
               <MenuItem>

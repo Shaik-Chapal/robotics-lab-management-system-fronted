@@ -41,6 +41,8 @@ const LoginPage = () => {
         localStorage.setItem("token", data.token);
         const userId = data.data.user.id;
         localStorage.setItem("userId", userId);
+        const claimValue = data.data.user.claims[0].value;
+        localStorage.setItem("claimValue", claimValue);
         toast({
           title: "Login Successful",
           description: "Welcome back!",
