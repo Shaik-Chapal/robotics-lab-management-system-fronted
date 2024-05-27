@@ -49,16 +49,22 @@ const DepartmentPage = () => {
         // Handle success
         toast({
           title: "Success",
-          description: "Branch created successfully",
+          description: "Department created successfully",
           status: "success",
           duration: 5000,
           isClosable: true,
+        });
+        setFormData({
+          name: "",
+          address: "",
+          phone: "",
+         
         });
       } else {
         // Handle failure
         toast({
           title: "Error",
-          description: "Failed to create branch",
+          description: "Failed to create Department",
           status: "error",
           duration: 5000,
           isClosable: true,
@@ -88,11 +94,11 @@ const DepartmentPage = () => {
         <Box w="50%" px={4}>
           <Box maxW="auto" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
-              Create Branch
+              Create Department
             </Text>
             <form onSubmit={handleSubmit}>
               <FormControl id="name" isRequired>
-                <FormLabel>Branch Name</FormLabel>
+                <FormLabel>Department Name</FormLabel>
                 <Input
                   type="text"
                   name="name"
