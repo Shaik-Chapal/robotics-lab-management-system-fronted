@@ -13,7 +13,7 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
-
+import { BASE_URL } from "../../Redux/actionItems";
 
 const UpdateModal = ({ isOpen, onClose, onUpdate, universityData }) => {
   const [formData, setFormData] = useState({
@@ -47,9 +47,12 @@ const UpdateModal = ({ isOpen, onClose, onUpdate, universityData }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  
+  const handleTimeChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.website) {
       toast({
         title: "Validation Error",
@@ -61,7 +64,46 @@ const UpdateModal = ({ isOpen, onClose, onUpdate, universityData }) => {
       return;
     }
 
-    onUpdate(formData);
+    try {
+      const response = await fetch(`${BASE_URL}/api/User/University/${universityData.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+       
+       
+        toast({
+          title: "Success",
+          description: "University data updated successfully.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        window.location.reload();
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to update university data.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update university data.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+     
+    }
+
     onClose();
   };
 
@@ -106,11 +148,21 @@ const UpdateModal = ({ isOpen, onClose, onUpdate, universityData }) => {
           </FormControl>
           <FormControl mt={4} isRequired>
             <FormLabel>Open Time</FormLabel>
-            <input type="time" name="time"/>
+            <Input
+              type="time"
+              name="openTime"
+              value={formData.openTime}
+              onChange={handleTimeChange}
+            />
           </FormControl>
           <FormControl mt={4} isRequired>
             <FormLabel>Close Time</FormLabel>
-            <input type="time" name="time"/>
+            <Input
+              type="time"
+              name="closeTime"
+              value={formData.closeTime}
+              onChange={handleTimeChange}
+            />
           </FormControl>
           <FormControl mt={4} isRequired>
             <FormLabel>Website</FormLabel>
