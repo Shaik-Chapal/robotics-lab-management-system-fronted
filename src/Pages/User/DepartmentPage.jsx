@@ -7,7 +7,8 @@ import {
   FormLabel,
   Input,
   Text,
-  Spacer
+  Spacer,
+  useToast,
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
@@ -17,10 +18,13 @@ import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 
 const DepartmentPage = () => {
+  const universityId = localStorage.getItem("universityId");
+  const toast = useToast();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     phone: "",
+    companyId: universityId, // Include companyId in the form data
   });
 
   const handleChange = (e) => {
@@ -34,7 +38,7 @@ const DepartmentPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/api/v1/Department`, {
+      const response = await fetch(`${BASE_URL}/api/Branch`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,19 +46,40 @@ const DepartmentPage = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        // Handle success, e.g., show a success message or redirect
-        console.log("Department created successfully");
+        // Handle success
+        toast({
+          title: "Success",
+          description: "Branch created successfully",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
       } else {
-        console.error("Failed to create department");
+        // Handle failure
+        toast({
+          title: "Error",
+          description: "Failed to create branch",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast({
+        title: "Error",
+        description: `An error occurred: ${error.message}`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
+
   const state = useSelector((state) => state.authentication);
   if (!state.isAuth) {
     return <Navigate to="/login" />;
   }
+
   return (
     <Box>
       <Header />
@@ -63,11 +88,11 @@ const DepartmentPage = () => {
         <Box w="50%" px={4}>
           <Box maxW="auto" mx="auto" mt={10} p={5} borderWidth="1px" borderRadius="lg">
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
-              Create Department
+              Create Branch
             </Text>
             <form onSubmit={handleSubmit}>
               <FormControl id="name" isRequired>
-                <FormLabel>Department Name</FormLabel>
+                <FormLabel>Branch Name</FormLabel>
                 <Input
                   type="text"
                   name="name"
@@ -97,16 +122,16 @@ const DepartmentPage = () => {
               </FormControl>
 
               <Flex justify="space-between" alignItems="center" mt={6}>
-      <Button type="submit" colorScheme="blue" style={{ width: "calc(50% - 4px)" }}>
-        Save
-      </Button>
-      <Spacer />
-      <Link to={"/departmentList"} style={{ width: "calc(50% - 4px)" }}>
-        <Button type="button" colorScheme="green" style={{ width: "100%" }}>
-          List 
-        </Button>
-      </Link>
-    </Flex>
+                <Button type="submit" colorScheme="blue" style={{ width: "calc(50% - 4px)" }}>
+                  Save
+                </Button>
+                <Spacer />
+                <Link to={"/departmentList"} style={{ width: "calc(50% - 4px)" }}>
+                  <Button type="button" colorScheme="green" style={{ width: "100%" }}>
+                    List 
+                  </Button>
+                </Link>
+              </Flex>
             </form>
           </Box>
         </Box>

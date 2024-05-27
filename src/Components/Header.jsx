@@ -41,6 +41,8 @@ const Header = () => {
       }
       const data = await response.json();
       setUniversityData(data);
+      const universityId = data.id;
+      localStorage.setItem("universityId", universityId);
     } catch (error) {
       console.error("Error fetching university data:", error);
     }
