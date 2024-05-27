@@ -5,21 +5,35 @@ import {
   Flex,
   Text,
   Heading,
-  Image,
   Input,
   FormControl,
   FormLabel,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useToast
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { BASE_URL } from "../../Redux/actionItems";
 
 const Supplier = () => {
+  const toast = useToast();
   const [suppliers, setSuppliers] = useState([]);
   const [newSupplierName, setNewSupplierName] = useState("");
   const [newSupplierAddress, setNewSupplierAddress] = useState("");
+  const [newSupplierContactPerson, setNewSupplierContactPerson] = useState("");
+  const [newSupplierEmail, setNewSupplierEmail] = useState("");
+  const [newSupplierPhone, setNewSupplierPhone] = useState("");
+  const [currentSupplier, setCurrentSupplier] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     fetchSuppliers();
@@ -49,24 +63,93 @@ const Supplier = () => {
         body: JSON.stringify({
           name: newSupplierName,
           address: newSupplierAddress,
+          contactPerson: newSupplierContactPerson,
+          email: newSupplierEmail,
+          phone: newSupplierPhone,
         }),
       });
       if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Crtment created successfully",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
         const data = await response.json();
         setSuppliers([...suppliers, data]);
         setNewSupplierName("");
         setNewSupplierAddress("");
+        setNewSupplierContactPerson("");
+        setNewSupplierEmail("");
+        setNewSupplierPhone("");
       } else {
-        console.error("Failed to add supplier");
+        toast({
+          title: "Error",
+          description: "Failed to create  or duplicate .",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create  or duplicate .",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleUpdateSupplier = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/Suppliers/${currentSupplier.supplierId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          supplierId:currentSupplier.supplierId,
+          name: currentSupplier.name,
+          address: currentSupplier.address,
+          contactPerson: currentSupplier.contactPerson,
+          email: currentSupplier.email,
+          phone: currentSupplier.phone,
+        }),
+      });
+      if (response.ok) {
+        fetchSuppliers();
+        onClose();
+      } else {
+        console.error("Failed to update supplier");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  const handleDeleteSupplier = async (supplierId) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/Suppliers/${supplierId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        setSuppliers(suppliers.filter((supplier) => supplier.supplierId !== supplierId));
+      } else {
+        console.error("Failed to delete supplier");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const state = useSelector((state) => state.authentication);
   if (!state.isAuth) {
     return <Navigate to="/login" />;
   }
+
   return (
     <Box bgColor="lightblue">
       <Header />
@@ -88,22 +171,21 @@ const Supplier = () => {
               justifyContent="space-between"
             >
               <Flex alignItems="center">
-                <Image
-                  src={supplier.imageUrl}
-                  alt={supplier.name}
-                  boxSize="100px"
-                  mr={4}
-                />
                 <Box>
                   <Text fontSize="lg" fontWeight="bold">
                     {supplier.name}
                   </Text>
+                  <Text fontSize="md">Contact Person: {supplier.contactPerson}</Text>
+                  <Text fontSize="md">Email: {supplier.email}</Text>
+                  <Text fontSize="md">Phone: {supplier.phone}</Text>
                   <Text fontSize="md">Address: {supplier.address}</Text>
                 </Box>
               </Flex>
-              <Link to={`/supplier/${supplier.supplierId}`}>
-                <Button colorScheme="blue">View Details</Button>
-              </Link>
+              <Button colorScheme="blue" onClick={() => {
+                setCurrentSupplier(supplier);
+                onOpen();
+              }}>Update</Button>
+              <Button colorScheme="red" onClick={() => handleDeleteSupplier(supplier.supplierId)}>Delete</Button>
             </Box>
           ))}
         </Box>
@@ -127,11 +209,92 @@ const Supplier = () => {
               onChange={(e) => setNewSupplierAddress(e.target.value)}
             />
           </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Contact Person</FormLabel>
+            <Input
+              type="text"
+              value={newSupplierContactPerson}
+              onChange={(e) => setNewSupplierContactPerson(e.target.value)}
+            />
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Email</FormLabel>
+            <Input
+              type="email"
+              value={newSupplierEmail}
+              onChange={(e) => setNewSupplierEmail(e.target.value)}
+            />
+          </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Phone</FormLabel>
+            <Input
+              type="text"
+              value={newSupplierPhone}
+              onChange={(e) => setNewSupplierPhone(e.target.value)}
+            />
+          </FormControl>
           <Button colorScheme="green" onClick={handleAddSupplier}>
             Add Supplier
           </Button>
         </Box>
       </Flex>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Update Supplier</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl mb={4}>
+              <FormLabel>Name</FormLabel>
+              <Input
+                type="text"
+                value={currentSupplier?.name || ""}
+                onChange={(e) => setCurrentSupplier({ ...currentSupplier, name: e.target.value })}
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Contact Person</FormLabel>
+              <Input
+                type="text"
+                value={currentSupplier?.contactPerson || ""}
+                onChange={(e) => setCurrentSupplier({ ...currentSupplier, contactPerson: e.target.value })}
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                type="email"
+                value={currentSupplier?.email || ""}
+                onChange={(e) => setCurrentSupplier({ ...currentSupplier, email: e.target.value })}
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Phone</FormLabel>
+              <Input
+                type="text"
+                value={currentSupplier?.phone || ""}
+                onChange={(e) => setCurrentSupplier({ ...currentSupplier, phone: e.target.value })}
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Address</FormLabel>
+              <Input
+                type="text"
+                value={currentSupplier?.address || ""}
+                onChange={(e) => setCurrentSupplier({ ...currentSupplier, address: e.target.value })}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleUpdateSupplier}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
       <Footer />
     </Box>
   );

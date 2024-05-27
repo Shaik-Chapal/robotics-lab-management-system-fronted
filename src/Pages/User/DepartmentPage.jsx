@@ -64,7 +64,7 @@ const DepartmentPage = () => {
         // Handle failure
         toast({
           title: "Error",
-          description: "Failed to create Department",
+          description: "Failed to create Department or duplicate Department.",
           status: "error",
           duration: 5000,
           isClosable: true,

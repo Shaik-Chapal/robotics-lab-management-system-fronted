@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -8,136 +8,120 @@ import {
   Input,
   Text,
   Spacer,
-  useToast
+  useToast,
+  FormErrorMessage,
+  Select,
 } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import { BASE_URL } from "../../Redux/actionItems";
 
 const StudentPage = () => {
-  const [formData, setFormData] = useState({
-    Id: "",
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    Password: "" ,
-    PhoneNumber: "",
-    CurrentAddress: "",
-    Department: "",
-    Session: "",
-    IdNumber: "",
-    JoinDate: ""
-  });
-  const toast = useToast();
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const [departments, setDepartments] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const toast = useToast();
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
+
+  const fetchDepartments = async () => {
     try {
-      
-      const registerResponse = await fetch(`${BASE_URL}/Register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: formData.Email,
-          password: formData.Password,
-          phone: formData.PhoneNumber,
-          userRole:1 
-        })
-      });
-  
-      if (!registerResponse.ok) {
-        console.error('Failed to register user');
-        return;
-      }
-  
-    
-      const { userId } = await registerResponse.json();
-  
-    
-      const newUser = {
-        id: userId,
-        firstName: formData.FirstName,
-        lastName: formData.LastName,
-        email: formData.Email,
-        password: "n",
-        phoneNumber: formData.PhoneNumber,
-        CurrentAddress: formData.CurrentAddress,
-        department: formData.Department,
-        designation: formData.Department,
-        Session: formData.Session,
-        idNumber: formData.IdNumber,
-        joinDate: formData.JoinDate,
-        status:"active"
-      };
-      console.log(newUser)
-  
-      const saveUserDataResponse = await fetch(`${BASE_URL}/api/User`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser)
-      });
-  
-      if (saveUserDataResponse.ok) {
-        console.log('User created successfully!');
-        toast({
-          title: "User saved successfully!",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-        
-        // Clear form fields
-        setFormData({
-          Id: "",
-          FirstName: "",
-          LastName: "",
-          Email: "",
-          Password: "" ,
-          PhoneNumber: "",
-          CurrentAddress: "",
-          Department: "",
-          Session: "",
-          IdNumber: "",
-          JoinDate: ""
-        });
+      const response = await fetch(`${BASE_URL}/api/Branch`);
+      if (response.ok) {
+        const data = await response.json();
+        setDepartments(data);
       } else {
-        console.error('Failed to save user data');
-        toast({
-          title: "Failed to save user",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
+        console.error("Failed to fetch departments");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
+    }
+  };
+
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
+
+  const onSubmit = async (data) => {
+    try {
+      const registerResponse = await fetch(`${BASE_URL}/Register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.Email,
+          password: data.Password,
+          phone: data.PhoneNumber,
+          userRole: 1,
+        }),
+      });
+
+      if (!registerResponse.ok) {
+        throw new Error("Failed to register user");
+      }
+
+      const { userId } = await registerResponse.json();
+
+      const newUser = {
+        id: userId,
+        firstName: data.FirstName,
+        lastName: data.LastName,
+        email: data.Email,
+        password: "n",
+        phoneNumber: data.PhoneNumber,
+        currentAddress: data.CurrentAddress,
+        department: data.Department,
+        designation: data.Department,
+        session: data.Session,
+        idNumber: data.IdNumber,
+        joinDate: data.JoinDate,
+        status: "active",
+      };
+
+      const saveUserDataResponse = await fetch(`${BASE_URL}/api/User`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      if (!saveUserDataResponse.ok) {
+        throw new Error("Failed to save user data");
+      }
+
       toast({
-        title: "Failed to save user : "+error,
+        title: "User saved successfully!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      reset();
+    } catch (error) {
+      console.error("Error:", error);
+      toast({
+        title: `Failed to save user: ${error.message}`,
         status: "error",
         duration: 3000,
         isClosable: true,
       });
     }
   };
-  const state = useSelector((state) => state.authentication);
-  if (!state.isAuth) {
-    return <Navigate to="/login" />;
-  }
+
   return (
     <Box>
       <Header />
@@ -148,59 +132,70 @@ const StudentPage = () => {
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
               Create Student
             </Text>
-            <form onSubmit={handleSubmit}>
-              <FormControl id="FirstName" isRequired>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormControl id="FirstName" isInvalid={errors.FirstName} isRequired>
                 <FormLabel>First Name</FormLabel>
                 <Input
                   type="text"
-                  name="FirstName"
-                  value={formData.FirstName}
-                  onChange={handleChange}
+                  {...register("FirstName", {
+                    required: "First Name is required",
+                  })}
                 />
+                <FormErrorMessage>{errors.FirstName && errors.FirstName.message}</FormErrorMessage>
               </FormControl>
-              <FormControl id="LastName" isRequired>
+              <FormControl id="LastName" isInvalid={errors.LastName} isRequired>
                 <FormLabel>Last Name</FormLabel>
                 <Input
                   type="text"
-                  name="LastName"
-                  value={formData.LastName}
-                  onChange={handleChange}
+                  {...register("LastName", {
+                    required: "Last Name is required",
+                  })}
                 />
+                <FormErrorMessage>{errors.LastName && errors.LastName.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl id="Email" isRequired mt={4}>
+              <FormControl id="Email" isInvalid={errors.Email} isRequired mt={4}>
                 <FormLabel>Email</FormLabel>
                 <Input
-                  type="text"
-                  name="Email"
-                  value={formData.Email}
-                  onChange={handleChange}
+                  type="email"
+                  {...register("Email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
+                <FormErrorMessage>{errors.Email && errors.Email.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl id="Department" isRequired mt={4}>
+              <FormControl id="Department" isInvalid={errors.Department} isRequired mt={4}>
                 <FormLabel>Department</FormLabel>
-                <Input
-                  type="text"
-                  name="Department"
-                  value={formData.Department}
-                  onChange={handleChange}
-                />
+                <Select
+                  placeholder="Select department"
+                  {...register("Department", {
+                    required: "Department is required",
+                  })}
+                >
+                  {departments.map((department) => (
+                    <option key={department.id} value={department.name}>
+                      {department.name}
+                    </option>
+                  ))}
+                </Select>
+                <FormErrorMessage>{errors.Department && errors.Department.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl id="CurrentAddress" isRequired mt={4}>
+              <FormControl id="CurrentAddress" isInvalid={errors.CurrentAddress} isRequired mt={4}>
                 <FormLabel>Current Address</FormLabel>
                 <Input
                   type="text"
-                  name="CurrentAddress"
-                  value={formData.CurrentAddress}
-                  onChange={handleChange}
+                  {...register("CurrentAddress", {
+                    required: "Current Address is required",
+                  })}
                 />
+                <FormErrorMessage>{errors.CurrentAddress && errors.CurrentAddress.message}</FormErrorMessage>
               </FormControl>
-
-            
-
-           
             </form>
           </Box>
         </Box>
@@ -210,54 +205,64 @@ const StudentPage = () => {
             <Text fontWeight={400} fontSize={"30px"} mb={5} textAlign="center">
               Additional Information
             </Text>
-            <form onSubmit={handleSubmit}>
-              <FormControl id="PhoneNumber" isRequired mt={4}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <FormControl id="PhoneNumber" isInvalid={errors.PhoneNumber} isRequired mt={4}>
                 <FormLabel>Phone Number</FormLabel>
                 <Input
                   type="text"
-                  name="PhoneNumber"
-                  value={formData.PhoneNumber}
-                  onChange={handleChange}
+                  {...register("PhoneNumber", {
+                    required: "Phone Number is required",
+                    pattern: {
+                      value: /^[0-9]{10,15}$/,
+                      message: "Invalid phone number",
+                    },
+                  })}
                 />
+                <FormErrorMessage>{errors.PhoneNumber && errors.PhoneNumber.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl id="Session" isRequired mt={4}>
+              <FormControl id="Session" isInvalid={errors.Session} isRequired mt={4}>
                 <FormLabel>Session</FormLabel>
                 <Input
                   type="text"
-                  name="Session"
-                  value={formData.Session}
-                  onChange={handleChange}
+                  {...register("Session", {
+                    required: "Session is required",
+                  })}
                 />
+                <FormErrorMessage>{errors.Session && errors.Session.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl id="IdNumber" isRequired mt={4}>
+              <FormControl id="IdNumber" isInvalid={errors.IdNumber} isRequired mt={4}>
                 <FormLabel>ID Number</FormLabel>
                 <Input
                   type="text"
-                  name="IdNumber"
-                  value={formData.IdNumber}
-                  onChange={handleChange}
+                  {...register("IdNumber", {
+                    required: "ID Number is required",
+                  })}
                 />
+                <FormErrorMessage>{errors.IdNumber && errors.IdNumber.message}</FormErrorMessage>
               </FormControl>
 
-              <FormControl id="JoinDate" isRequired mt={4}>
+              <FormControl id="JoinDate" isInvalid={errors.JoinDate} isRequired mt={4}>
                 <FormLabel>Join Date</FormLabel>
                 <Input
-                  type="text"
-                  name="JoinDate"
-                  value={formData.JoinDate}
-                  onChange={handleChange}
+                  type="datetime-local"
+                  {...register("JoinDate", {
+                    required: "Join Date is required",
+                  })}
                 />
+                <FormErrorMessage>{errors.JoinDate && errors.JoinDate.message}</FormErrorMessage>
               </FormControl>
-              <FormControl id="Password" isRequired mt={4}>
+
+              <FormControl id="Password" isInvalid={errors.Password} isRequired mt={4}>
                 <FormLabel>Password</FormLabel>
                 <Input
                   type="password"
-                  name="Password"
-                  value={formData.Password}
-                  onChange={handleChange}
+                  {...register("Password", {
+                    required: "Password is required",
+                  })}
                 />
+                <FormErrorMessage>{errors.Password && errors.Password.message}</FormErrorMessage>
               </FormControl>
 
               <Spacer />

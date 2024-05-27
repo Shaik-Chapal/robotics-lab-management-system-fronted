@@ -103,7 +103,7 @@ const Footer = () => {
           textAlign={"center"}
           mt={10}
         >
-          ©Created By Chapal Shaikh.
+          ©Created By Chapal Shaik.
         </Text>
       </Box>
     </Box>
