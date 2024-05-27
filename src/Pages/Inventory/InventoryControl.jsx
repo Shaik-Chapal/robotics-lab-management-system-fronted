@@ -29,7 +29,7 @@ const InventoryControl = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/v1/Equipment/grouped-equipment`);
+        const response = await axios.get(`${BASE_URL}/api/GroupModel`);
         setGroups(response.data);
       } catch (error) {
         console.error("Error fetching groups data:", error);

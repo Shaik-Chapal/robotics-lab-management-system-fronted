@@ -26,6 +26,8 @@ import { EditIcon, DeleteIcon, ViewIcon } from "@chakra-ui/icons";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -172,7 +174,10 @@ const Profile = () => {
       });
     }
   };
-
+  const state = useSelector((state) => state.authentication);
+  if (!state.isAuth) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box>
       <Header />
@@ -263,27 +268,23 @@ const Profile = () => {
                     boxShadow="md"
                     minWidth="300px"
                   >
-                    <Text fontSize="lg" fontWeight="bold" color="teal.600">
-                      {result.topic}
-                    </Text>
-                    <Text fontSize="md" color="gray.600">
-                      {result.introduction}
-                    </Text>
-                    <Text fontSize="md" color="gray.600">
-                      {result.abstract}
-                    </Text>
-                    <Text fontSize="md" color="gray.600">
-                      {result.methodology}
-                    </Text>
-                    <Text fontSize="md" color="gray.600">
-                      {result.description}
-                    </Text>
-                    <Text fontSize="md" color="gray.600">
-                      {result.result}
-                    </Text>
-                    <Text fontSize="md" color="gray.600">
-                      {result.conclusion}
-                    </Text>
+
+<Text fontSize="4xl" fontWeight="bold" textAlign="center" mb={4}>
+                  {result.topic}
+                </Text>
+                <Text fontWeight="bold" mb={2}>Introduction:</Text>
+                <Text mb={4}>{result.introduction}</Text>
+                <Text fontWeight="bold" mb={2}>Abstract:</Text>
+                <Text mb={4}>{result.abstract}</Text>
+                <Text fontWeight="bold" mb={2}>Methodology:</Text>
+                <Text mb={4}>{result.methodology}</Text>
+                <Text fontWeight="bold" mb={2}>Description:</Text>
+                <Text mb={4}>{result.description}</Text>
+                <Text fontWeight="bold" mb={2}>Result:</Text>
+                <Text mb={4}>{result.result}</Text>
+                <Text fontWeight="bold" mb={2}>Conclusion:</Text>
+                <Text mb={4}>{result.conclusion}</Text>
+                   
                     <HStack mt={2} justify="center">
                       <IconButton
                         icon={<ViewIcon />}

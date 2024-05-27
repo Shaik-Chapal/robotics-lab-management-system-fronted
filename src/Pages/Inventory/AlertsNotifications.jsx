@@ -60,45 +60,7 @@ const AlertsNotifications = () => {
             )}
           </Box>
 
-          {/* Damaged items alert */}
-          <Box mb={4}>
-            <Heading as="h3" fontSize="xl" mb={2}>Damaged Items Alert</Heading>
-            {damagedItems.length === 0 ? (
-              <Text>No damaged items.</Text>
-            ) : (
-              damagedItems.map(item => (
-                <Box 
-                  key={item.equipmentID}
-                  p={2}
-                  bgColor="red.200"
-                  mb={2}
-                  borderRadius="md"
-                >
-                  <Text>{item.equipmentName} is damaged.</Text>
-                </Box>
-              ))
-            )}
-          </Box>
 
-          {/* Borrowed items not returned alert */}
-          <Box>
-            <Heading as="h3" fontSize="xl" mb={2}>Borrowed Items Not Returned Alert</Heading>
-            {borrowedItemsNotReturned.length === 0 ? (
-              <Text>No borrowed items not returned.</Text>
-            ) : (
-              borrowedItemsNotReturned.map(item => (
-                <Box 
-                  key={item.equipmentID}
-                  p={2}
-                  bgColor="yellow.200"
-                  mb={2}
-                  borderRadius="md"
-                >
-                  <Text>{item.equipmentName} has not been returned.</Text>
-                </Box>
-              ))
-            )}
-          </Box>
         </Box>
       </Flex>
       <Footer />

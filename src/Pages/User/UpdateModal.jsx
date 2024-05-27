@@ -85,22 +85,10 @@ const UpdateModal = ({ isOpen, onClose, onUpdate, universityData }) => {
         });
         window.location.reload();
       } else {
-        toast({
-          title: "Error",
-          description: "Failed to update university data.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update university data.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+     
      
     }
 

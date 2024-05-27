@@ -19,22 +19,10 @@ const University = () => {
         const data = await response.json();
         setUniversityData(data);
       } else {
-        toast({
-          title: "Error",
-          description: "Failed to fetch university data",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: `An error occurred: ${error.message}`,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+     
     }
   };
 

@@ -174,14 +174,15 @@ const ResourceApproval = () => {
     setSelectedUser(userData[userId]);
     onOpen();
   };
-
-  if (loading) {
-    return <Spinner size="xl" />;
-  }
   const state = useSelector((state) => state.authentication);
   if (!state.isAuth) {
     return <Navigate to="/login" />;
   }
+
+  if (loading) {
+    return <Spinner size="xl" />;
+  }
+ 
   return (
     <Box>
       <Header />

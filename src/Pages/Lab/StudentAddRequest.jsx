@@ -153,7 +153,7 @@ const StudentAddRequest = () => {
                 ml={2}
               />
               <Button ml={2} colorScheme="blue" onClick={handleAddToCart}>
-                Add to Cart
+                Add to List
               </Button>
             </Flex>
           </Box>
