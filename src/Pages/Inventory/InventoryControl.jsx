@@ -5,6 +5,13 @@ import {
   Text,
   Heading,
   SimpleGrid,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Header from "../../Components/Header";
@@ -12,8 +19,12 @@ import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems"; // Ensure this contains the base URL of your API
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+
 const InventoryControl = () => {
   const [groups, setGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [groupEquipment, setGroupEquipment] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -27,6 +38,16 @@ const InventoryControl = () => {
 
     fetchGroups();
   }, []);
+
+  const fetchGroupEquipment = async (groupName) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/Equipment/group-equipment/${groupName}`);
+      setGroupEquipment(response.data);
+      onOpen();
+    } catch (error) {
+      console.error(`Error fetching equipment for group ${groupName}:`, error);
+    }
+  };
 
   // Define an array of colors for different background colors
   const colors = ["orange.200", "blue.200", "green.200", "purple.200", "red.200"];
@@ -48,6 +69,8 @@ const InventoryControl = () => {
                 bgColor={colors[index % colors.length]} // Cycle through colors
                 borderRadius="md"
                 boxShadow="md"
+                onClick={() => fetchGroupEquipment(group.name)}
+                cursor="pointer"
               >
                 <Text fontSize="lg"><strong></strong> {group.name}</Text>
               </Box>
@@ -56,6 +79,33 @@ const InventoryControl = () => {
         </Box>
       </Flex>
       <Footer />
+
+      {/* Modal for displaying group equipment */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Group Equipment</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <SimpleGrid columns={2} spacing={4}>
+              {groupEquipment.map((equipment, index) => (
+                <Box
+                  key={equipment.equipmentID}
+                  p={4}
+                  bgColor={index % 2 === 0 ? "gray.100" : "gray.200"} // Alternating row colors
+                  borderRadius="md"
+                  boxShadow="md"
+                >
+                  <Text fontSize="lg">{equipment.equipmentName}</Text>
+                  <Text>Quantity: {equipment.quantity}</Text>
+                 
+                 
+                </Box>
+              ))}
+            </SimpleGrid>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }

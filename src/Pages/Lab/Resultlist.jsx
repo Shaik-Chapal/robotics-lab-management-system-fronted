@@ -18,13 +18,16 @@ import {
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems";
-  import { useSelector } from "react-redux";
-  import { Link, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+
 const Resultlist = () => {
   const [researchResults, setResearchResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
+  const [userDetails, setUserDetails] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const state = useSelector((state) => state.authentication);
 
   useEffect(() => {
     const fetchResearchResults = async () => {
@@ -34,13 +37,7 @@ const Resultlist = () => {
           const data = await response.json();
           setResearchResults(data);
         } else {
-          toast({
-            title: "Error",
-            description: "Failed to fetch research results.",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-          });
+          throw new Error("Failed to fetch research results.");
         }
       } catch (error) {
         toast({
@@ -56,14 +53,36 @@ const Resultlist = () => {
     fetchResearchResults();
   }, [toast]);
 
-  const handleView = (result) => {
+  const fetchUserDetails = async (userId) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/User/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setUserDetails(data);
+      } else {
+        throw new Error("Failed to fetch user details.");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message || "An error occurred while fetching user details.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleView = async (result) => {
     setSelectedResult(result);
+    await fetchUserDetails(result.userId);
     onOpen();
   };
-  const state = useSelector((state) => state.authentication);
+
   if (!state.isAuth) {
     return <Navigate to="/login" />;
   }
+
   return (
     <Box bgColor="lightblue">
       <Header />
@@ -86,31 +105,57 @@ const Resultlist = () => {
                 onClick={() => handleView(result)}
                 cursor="pointer"
               >
-                <Text fontSize="lg">Topic: {result.topic}</Text>
-                <Text>ID: {result.id}</Text>
-                <Text>Result: {result.result}</Text>
+             <Text flex="20%">
+
+  {userDetails.firstName} {userDetails.lastName}
+</Text>
+<Text fontSize="lg" flex="80%">
+  Topic: {result.topic}
+</Text>
+
               </Box>
             ))}
           </Box>
         </Box>
       </Flex>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="full">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Research Result Details</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+          <ModalHeader bg="teal.500" color="white">
+            Research Result Details
+          </ModalHeader>
+          <ModalCloseButton color="white" />
+          <ModalBody bg="gray.100" color="black" p={8}>
             {selectedResult && (
               <>
-                <Text><strong>Topic:</strong> {selectedResult.topic}</Text>
-                <Text><strong>Result:</strong> {selectedResult.result}</Text>
-                <Text><strong>Description:</strong> {selectedResult.description}</Text>
+                <Text fontSize="4xl" fontWeight="bold" textAlign="center" mb={4}>
+                  {selectedResult.topic}
+                </Text>
+                <Text fontWeight="bold" mb={2}>Introduction:</Text>
+                <Text mb={4}>{selectedResult.introduction}</Text>
+                <Text fontWeight="bold" mb={2}>Abstract:</Text>
+                <Text mb={4}>{selectedResult.abstract}</Text>
+                <Text fontWeight="bold" mb={2}>Methodology:</Text>
+                <Text mb={4}>{selectedResult.methodology}</Text>
+                <Text fontWeight="bold" mb={2}>Description:</Text>
+                <Text mb={4}>{selectedResult.description}</Text>
+                <Text fontWeight="bold" mb={2}>Result:</Text>
+                <Text mb={4}>{selectedResult.result}</Text>
+                <Text fontWeight="bold" mb={2}>Conclusion:</Text>
+                <Text mb={4}>{selectedResult.conclusion}</Text>
+                {userDetails && (
+                  <>
+                    <Text fontWeight="bold" mt={4}>Researcher: {userDetails.firstName} {userDetails.lastName}</Text>
+                    <Text>Email: {userDetails.email}</Text>
+                    <Text>Department: {userDetails.department}</Text>
+                  </>
+                )}
               </>
             )}
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <ModalFooter bg="teal.500">
+            <Button colorScheme="whiteAlpha" mr={3} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>
