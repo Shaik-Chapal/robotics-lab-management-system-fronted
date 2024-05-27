@@ -154,11 +154,11 @@ const LoginPage = () => {
             <Text fontWeight={400} fontSize={"18px"} mb={4}>
               New to RLMS?
             </Text>
-            <Link to={"/signup"}>
+            {/* <Link to={"/signup"}>
               <Button color={"#2A6293"} bg={"#EEEEEE"} w={"100%"}>
                 Create Account
               </Button>
-            </Link>
+            </Link> */}
           </Box>
         </SimpleGrid>
         </GridItem>
