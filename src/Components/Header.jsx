@@ -295,7 +295,8 @@ const Header = () => {
             </Link>
 
           
-           
+            {claimValue !== "Student" && (
+              <>
            
 
             <Link to={"/resourceApproval"}>
@@ -303,7 +304,8 @@ const Header = () => {
                 <Text>Resource Allocation</Text>
               </MenuItem>
             </Link>
-          
+            </>
+            )}
 
             <Link to={"/resultSharing"}>
               <MenuItem>
