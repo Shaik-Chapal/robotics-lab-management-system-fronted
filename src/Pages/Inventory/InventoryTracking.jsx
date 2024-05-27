@@ -67,58 +67,82 @@ const InventoryTracking = () => {
     <Box bgColor="lightblue">
       <Header />
       <Flex justify="center">
-        <Box w="80%" px={4} mt={10}>
-          <Heading as="h2" textAlign="center" mb={8} fontSize="3xl">Inventory Tracking</Heading>
-          <Box mb={4}>
-            <Input
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              mb={2}
-            />
-            <Select
-              value={sortOption}
-              onChange={handleSortChange}
-            >
-              <option value="name">Sort by Name</option>
-              <option value="quantity">Sort by Quantity</option>
-            </Select>
-          </Box>
-          {currentItems.map((item) => (
-            <Box
-              key={item.equipmentID}
-              p={4}
-              borderWidth="1px"
-              borderRadius="lg"
-              mb={4}
-              boxShadow="md"
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Text fontSize="lg">{item.equipmentName}</Text>
-              <Text fontSize="lg">Quantity: {item.equipmentTotal}</Text>
-              <Text fontSize="lg">Booked: {item.bookedCount}</Text>
-              <Text fontSize="lg">Used: {item.usedCount}</Text>
-              <Text fontSize="lg">Returned: {item.returnedCount}</Text>
-              <Text fontSize="lg">Damaged: {item.damagedCount}</Text>
-            </Box>
-          ))}
-          {/* Pagination */}
-          <Flex justify="center">
-            {Array.from({ length: Math.ceil(filteredInventory.length / itemsPerPage) }).map((_, index) => (
-              <Button
-                key={index}
-                colorScheme={currentPage === index + 1 ? "green" : "gray"}
-                onClick={() => handlePageChange(index + 1)}
-                mr={2}
-              >
-                {index + 1}
-              </Button>
-            ))}
-          </Flex>
-        </Box>
-      </Flex>
+  <Box w="80%" px={4} mt={10}>
+    <Heading as="h2" textAlign="center" mb={8} fontSize="3xl">Inventory Tracking</Heading>
+    <Box mb={4}>
+      <Input
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={handleSearchChange}
+        mb={2}
+      />
+      <Select
+        value={sortOption}
+        onChange={handleSortChange}
+      >
+        <option value="name">Sort by Name</option>
+        <option value="quantity">Sort by Quantity</option>
+      </Select>
+    </Box>
+
+    {/* Table Header */}
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderRadius="lg"
+      mb={4}
+      boxShadow="md"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      bg="blue.900" 
+    >
+      <Text fontSize="lg" w="25%" color="white">Name</Text>
+  <Text fontSize="lg" w="15%" color="white">Quantity</Text>
+  <Text fontSize="lg" w="15%" color="white">Booked</Text>
+  <Text fontSize="lg" w="15%" color="white">Used</Text>
+  <Text fontSize="lg" w="15%" color="white">Returned</Text>
+  <Text fontSize="lg" w="15%" color="white">Damaged</Text>
+    </Box>
+
+    {/* Inventory Items */}
+    {currentItems.map((item) => (
+      <Box
+        key={item.equipmentID}
+        p={4}
+        borderWidth="1px"
+        borderRadius="lg"
+        mb={4}
+        boxShadow="md"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Text fontSize="lg" w="25%">{item.equipmentName}</Text>
+        <Text fontSize="lg" w="15%">{item.equipmentTotal}</Text>
+        <Text fontSize="lg" w="15%">{item.bookedCount}</Text>
+        <Text fontSize="lg" w="15%">{item.usedCount}</Text>
+        <Text fontSize="lg" w="15%">{item.returnedCount}</Text>
+        <Text fontSize="lg" w="15%">{item.damagedCount}</Text>
+      </Box>
+    ))}
+
+    {/* Pagination */}
+    <Flex justify="center">
+      {Array.from({ length: Math.ceil(filteredInventory.length / itemsPerPage) }).map((_, index) => (
+        <Button
+          key={index}
+          colorScheme={currentPage === index + 1 ? "green" : "gray"}
+          onClick={() => handlePageChange(index + 1)}
+          mr={2}
+        >
+          {index + 1}
+        </Button>
+      ))}
+    </Flex>
+  </Box>
+</Flex>
+
       <Footer />
     </Box>
   );

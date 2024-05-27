@@ -210,8 +210,7 @@ const Header = () => {
           </MenuList>
         </Menu>
 
-        {claimValue !== "Student" && (
-              <>
+       
         <Menu>
           <MenuButton
             as={Button}
@@ -225,6 +224,8 @@ const Header = () => {
             Inventory Management Module
           </MenuButton>
           <MenuList color={"black"}>
+          {claimValue !== "Student" && (
+              <>
           <Link to={"/groupScreen"}>
               <MenuItem>
                 <Text>Group</Text>
@@ -246,6 +247,13 @@ const Header = () => {
                 <Text>Inventory Tracking</Text>
               </MenuItem>
             </Link>
+            <Link to={"/alertsNotifications"}>
+              <MenuItem>
+                <Text>Alerts and Notifications</Text>
+              </MenuItem>
+            </Link>
+            </>
+            )}
 
             <Link to={"/inventoryControl"}>
               <MenuItem>
@@ -254,24 +262,18 @@ const Header = () => {
             </Link>
             <Link to={"/stockManagement"}>
               <MenuItem>
-                <Text>Stock Management</Text>
+                <Text>Stock Details</Text>
               </MenuItem>
             </Link>
 
-            <Link to={"/alertsNotifications"}>
-              <MenuItem>
-                <Text>Alerts and Notifications</Text>
-              </MenuItem>
-            </Link>
-
+         
            
 
             
       
           </MenuList>
         </Menu>
-        </>
-            )}
+       
 
         <Menu>
           <MenuButton
