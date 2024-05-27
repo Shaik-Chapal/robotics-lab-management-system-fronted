@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Text, Button, Spacer } from "@chakra-ui/react"; // Import Spacer
+import { Box, Flex, Text, Button, Spacer, useToast } from "@chakra-ui/react";
 import Header from "../../Components/Header";
 import Footer from "../../Components/Footer";
 import { BASE_URL } from "../../Redux/actionItems";
 import UpdateModal from "./UpdateModal";
 import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+
 const University = () => {
   const [universityData, setUniversityData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const toast = useToast();
 
   const fetchUniversityData = async () => {
     try {
@@ -17,10 +19,22 @@ const University = () => {
         const data = await response.json();
         setUniversityData(data);
       } else {
-        console.error("Failed to fetch university data");
+        toast({
+          title: "Error",
+          description: "Failed to fetch university data",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast({
+        title: "Error",
+        description: `An error occurred: ${error.message}`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
@@ -28,13 +42,16 @@ const University = () => {
     fetchUniversityData();
   }, []);
 
-  const handleUpdateData = () => {
+  const handleUpdateData = (updatedData) => {
+    setUniversityData(updatedData);
     fetchUniversityData();
   };
+
   const state = useSelector((state) => state.authentication);
   if (!state.isAuth) {
     return <Navigate to="/login" />;
   }
+
   return (
     <Box>
       <Header />
@@ -54,7 +71,7 @@ const University = () => {
           </Box>
         </Box>
       </Flex>
-    
+
       {universityData && (
         <Flex justify="center">
           <Box w="100%" px={4}>
@@ -88,35 +105,36 @@ const University = () => {
           </Box>
         </Flex>
       )}
-       <Flex justify="center">
-  <Box w="100%" px={4}>
-    <Box
-      maxW="md"
-      mx="auto"
-      m={10}
-      p={0}
-      borderWidth="1px"
-      borderRadius="lg"
-      display="flex"
-      justifyContent="center"
-      alignItems="center" // Center align the button vertically
-    >
-  <Flex justify="center">
-        <Button colorScheme="blue"  w="full" // Make the button fill the entire width of the box
-  h="50px" onClick={() => setIsModalOpen(true)}>Update</Button>
+      <Flex justify="center">
+        <Box w="100%" px={4}>
+          <Box
+            maxW="md"
+            mx="auto"
+            m={10}
+            p={0}
+            borderWidth="1px"
+            borderRadius="lg"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Flex justify="center">
+              <Button colorScheme="blue" w="full" h="50px" onClick={() => setIsModalOpen(true)}>
+                Update
+              </Button>
+            </Flex>
+
+            {universityData && (
+              <UpdateModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onUpdate={handleUpdateData}
+                universityData={universityData}
+              />
+            )}
+          </Box>
+        </Box>
       </Flex>
-
-      {/* Render UpdateModal */}
-      <UpdateModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onUpdate={handleUpdateData} />
-  
-
-    </Box>
-  </Box>
-</Flex>
-
-      
-  
-      
       <Footer />
     </Box>
   );
